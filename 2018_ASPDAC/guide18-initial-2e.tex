@@ -217,25 +217,22 @@ table captions should be above the tables. Avoid placing figures and
 tables before their first mention in the text. Use the abbreviation
 ``Fig.1'', even at the beginning of a sentence.
 
-%\begin{figure}[tb]
-%\begin{center}
-%\begin{minipage}{5cm}
-%$.$\hrulefill $.$\\$|$\hfill $|$\\$|$\hfill $|$\\$|$\hfill $|$\\
-%$|$\hfill this is \hfill $|$\\
-%$|$\hfill a sample \hfill $|$\\
-%$|$\hfill  figure  \hfill $|$\\
-%$|$\hfill $|$\\$|$\hfill $|$\\$|$\hfill $|$\\$.$\hrulefill $.$\\
-%\end{minipage}
-%\caption{This is a sample figure. Captions exceeding
-%one line are arranged like this.}
-%\end{center}
-%\end{figure}
 \begin{figure}[tb]
  \begin{center}
   \begin{minipage}{\hsize}
    \includegraphics[width=\hsize]{input_encode_03.eps}
    \caption{a way to encode schematic for input vector of neural network}
    \label{fig:input_encode}
+  \end{minipage}
+ \end{center}
+\end{figure}
+
+\begin{figure}[tb]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{output_encode_02.eps}
+   \caption{a way to encode schematic for output vector of neural network}
+   \label{fig:output_encode}
   \end{minipage}
  \end{center}
 \end{figure}
