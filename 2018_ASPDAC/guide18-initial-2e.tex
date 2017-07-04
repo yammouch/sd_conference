@@ -105,7 +105,7 @@ minus3pt\let\@listi\@listI}
 \date{}
 
 %make title
-\title{\Large\textbf{A Way to Make Schematic Aesthetic using Deeplearning}\\~\\
+\title{\Large\textbf{A Way to Make Schematic Aesthetic using Deep Neural Network}\\~\\
 \large\textbf{
 Preparation of Papers in Two-Column Format\\
 for the ASP-DAC 2018 (\LaTeX2e version)}}	% Modified by K. Kobayashi 18/06/02
@@ -396,8 +396,6 @@ The following hyper-parameters are used:
 The program is written in Java and Clojure,
 a Lisp dialect running of Java Virtual Machine.
 
-\section{Result}
-
 \begin{figure}[tb]
  \begin{center}
   \begin{minipage}{\hsize}
@@ -422,6 +420,8 @@ is used where softmax function is applied
 for the first 2 elements for command type,
 the next 10 elements for origin-x, 10 for origin-y and last 10 for destination.
 
+\section{Result}
+
 \begin{figure}[tb]
  \begin{center}
   \begin{minipage}{\hsize}
@@ -431,6 +431,24 @@ the next 10 elements for origin-x, 10 for origin-y and last 10 for destination.
   \end{minipage}
  \end{center}
 \end{figure}
+
+Figure \ref{fig:edit_steps} shows steps of circuit edit
+automatically generated from the trained neural network.
+For this result, 12 schematic patterns are used for traning
+out of 36 patterns shown in Fig. \ref{fig:training_data}.
+A schematic unused for traning is picked up,
+then challenged by the tranined neural network.
+In Fig. \ref{fig:edit_steps}, filled square shows the origin-x and y
+for each step.
+At step 1, the top net of the unnecessary ring is grabbed and moved lower
+to remove the ring.
+At step 2, the edge of salient net is grabbed,
+and moved to the adjacent cross point.
+At step 3, the net connected to the input port is grabbed .
+Finally, at step 4, the input port is moved upward
+and a clean schamatic is achived.
+The neural network succeeded in clean up a schematic
+which the network has never experienced.
 
 \begin{figure}[tb]
  \begin{center}
@@ -442,6 +460,13 @@ the next 10 elements for origin-x, 10 for origin-y and last 10 for destination.
  \end{center}
 \end{figure}
 
+Figure \ref{fig:errors} shows a error appearing learning phase.
+The horizontal axes is traning iteration up to 10000.
+The vertical axes is the sum of squared errors between
+neural network output and training data for output layer.
+Convergence can be seen there.
+It takes 60 seconds to finish 10000 training iterations.
+
 \begin{figure}[tb]
  \begin{center}
   \begin{minipage}{\hsize}
@@ -452,21 +477,46 @@ the next 10 elements for origin-x, 10 for origin-y and last 10 for destination.
  \end{center}
 \end{figure}
 
-\section{Summary and Conclusions}
+This experiment has been performed varing the number of schematic patterns.
+Figure \ref{fig:test_data} shows the result.
+The horizontal axes shows the number of schematic patterns used for traninig
+out of 36 patterns in total.
+Patterns not in the traning data are challeged to be cleaned up.
+The vertical axes shows the rate of success.
+Success means that a clean schematic
+without a overcrossing or unnecessary corner is achived
+like the bottom subfigure of Fig. \ref{fig:edit_steps}.
+Even when trained with only 4 patterns,
+the neural network can clean up about 50\% of schematic.
+When trained with 12 patterns,
+which corresponds to one third of all schematic patterns,
+the rate of success exceeds 90\%.
+When trained with 24 patterns,
+which corresponds to two thirds of all schematic patterns,
+the rate reached to 100\%.
 
-This template can be downloaded through the ASP-DAC 2018 web site
-(http://www.aspdac.com/). If you have any problem, please contact ASP-DAC
-2018 publication chair (jlee@unist.ac.kr).
+
+\section{Conclusions}
+
+An novel way to achieve aesthetic schematic is proposed.
+Deep neural network is used, and it learns how to edit schematic
+from edit history obtained from human.
+The trained neural network cleans up unnecessary part of given schematics,
+which the neural network has not experienced.
+Even the neural network is short of traning data,
+it can clean up unknown schematics to a certain extent.
+With enough training data,
+the trained neural network can clean up almost of schematic.
 
 %this is how to do an unnumbered subsection 
-\section*{\sc Acknowledgements}
-This article was written by referring to {\em ``Author's guide --
-Preparation of Papers in Two-Column Format for VLSI Symposia on
-Technology and Circuits''}, the {\em ``Preparation of Papers in
-Two-Column Format for the Proceedings of the 32nd ACM/IEEE Design
-Automation Conference''} written by Ann Burgmeyer, IEEE and {\em ``the
-template for producing IEEE-format articles using \LaTeX''}, written by
-Matthew Ward, Worcester Polytechnic Institute.
+%\section*{\sc Acknowledgements}
+%This article was written by referring to {\em ``Author's guide --
+%Preparation of Papers in Two-Column Format for VLSI Symposia on
+%Technology and Circuits''}, the {\em ``Preparation of Papers in
+%Two-Column Format for the Proceedings of the 32nd ACM/IEEE Design
+%Automation Conference''} written by Ann Burgmeyer, IEEE and {\em ``the
+%template for producing IEEE-format articles using \LaTeX''}, written by
+%Matthew Ward, Worcester Polytechnic Institute.
 
 \begin{thebibliography}{99}
 \footnotesize
