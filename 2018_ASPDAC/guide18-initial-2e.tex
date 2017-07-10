@@ -318,7 +318,7 @@ which clips large negative values to 0, large positive values to 1,
 to digitize outputs of weight function.
 The following softmax function is also used for activation:
 \begin{eqnarray}
-a(z_i) = \frac{e^(z_i)}{\sum_j e^{z_j}}
+a(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}
 \end{eqnarray}
 It emphasized a maximum value in its input vector.
 
@@ -327,13 +327,14 @@ For loss function $L$, the most simple one is following Euclidean distance:
 L(\hat{\bf y}, {\bf y}) = \sum_{i}(\hat{y_i} - y_i)^2
 \end{eqnarray}
 Figure \ref{fig:curves} (b) and (c) shows Euclidean distance
-as a function of $\hat{y_i}-y_i$, when $y_i$ is 0 and 1, respectively.
+as a function of $\hat{y_i}$, where $y_i$ is 0 in (b) and 1 in (c).
 In this study, another function called cross entropy function is used
 which evaluates the error between $\hat{y_i}-y_i$ more significantly,
 as shown in Fig. \ref{fig:curves} (d) for $y_i = 0$, (e) for $y_i = 1$.
 The cross entropy function is formally denoted as follows:
 \begin{eqnarray}
-L(\hat{\bf y}, {\bf y}) = - y_i \log y_i - (1-y_i) \log (1-y_i)
+L(\hat{\bf y}, {\bf y}) =
+\sum_i \left[ - y_i \log \hat{y_i} - (1-y_i) \log (1-\hat{y_i}) \right]
 \end{eqnarray}
 
 \section{Concept}
