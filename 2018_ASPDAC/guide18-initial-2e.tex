@@ -43,6 +43,7 @@
 %% and uncomment the line below.
 %%\usepackage{times}
 \usepackage[dvipdfmx]{graphicx}
+\usepackage{bm}
 \pagestyle{empty}
 %set paper size
 %for A4 paper
@@ -201,7 +202,7 @@ After training, schematics which are not a part of training data
 are fed to trained neural network,
 and the neural network makes given schematics aesthetic.
 
-\section{Concept}
+\section{Deep Feedforward Network}
 
 \begin{figure}[!tb]
  \begin{center}
@@ -212,6 +213,42 @@ and the neural network makes given schematics aesthetic.
   \end{minipage}
  \end{center}
 \end{figure}
+
+This section briefly introduces one of neural network architectures called
+``deep feedforward network'' applied to this study, described in \cite{mit}.
+Figure \ref{fig:deep_feedforward} shows a basic structure of
+deep feedforward network.
+It consists of some hidden layers and an output layer.
+It generates preferred output vector $\hat{\bf y}$ based on
+trainied parameter ${\bm \theta}_n$.
+Formally, $\hat{\bf y}$ is calculated as,
+\begin{eqnarray}
+\hat{\bf y} = {\bf x}_N \\
+{\bf x}_n = a_n({\bf z}_n) \\
+{\bf z}_n = f_n({\bf x}_{n-1}, {\bm \theta}_n)
+\end{eqnarray}
+where $N$ is the total number of layers,
+$n$ is an integer ranging from 1 to $N$ and
+${\bf x}_0$ is an input vector.
+$f_n$ and $a_n$ are an weight function and an activation function,
+explained later.
+Parameters ${\bm \theta}_n$ is trained
+by stochastic gradient descent method (SGC) described below.
+SGC updates ${\bm \theta_n}$ so that it reduces an error
+between $\hat{\bf y}_n$ and ${\bf y}_n$,
+where ${\bf y}$ is a preferred output for an input, ${\bf x}_0$.
+Given an loss function $L$ which evaluates
+the error between $\hat{\bf y}$ and ${\bf y}$,
+${\bm \theta}_n$ is updated as follows:
+\begin{eqnarray}
+{\bm \theta}_n \leftarrow
+(1-\lambda){\bm \theta}_n
+- \epsilon\frac{\partial L}{\partial {\bm \theta}_n}
+\end{eqnarray}
+where $\lambda$ is weight decay to above overfitting,
+$\epsilon$ is learning rate.
+Values smaller than 1 and slightly more than 0 are chosen
+for $\lambda$ and $\epsilon$.
 
 \begin{figure}[!tb]
  \begin{center}
@@ -233,6 +270,34 @@ and the neural network makes given schematics aesthetic.
  \end{center}
 \end{figure}
 
+For weight function $f$, one shown Fig. \ref{fig:layer_convolutional}
+is used to extract local characteristics on a field.
+In this case, inputs to and outputs from $f$ are regarded as
+3-dimensional arrays which are denoted as $x_{j,k,l}$ for input,
+$z_{j,k,l}$ for output with 3 subscripts.
+With 4-dimensional parameter $\theta_{i,j,k,l}$,
+the output $z_{j,k,l}$ is calculated as;
+\begin{eqnarray}
+z_{i,k,l} = \sum_{j}\sum_{l}\sum_{m}
+\theta_{i,j,l,m} x_{j,k - \lfloor w/2 \rfloor + l,l - \lfloor h/2 \rfloor + m}
+\end{eqnarray}
+where $w$ and $h$ are width and height of the parameter space
+as shown in Fig. \ref{fig:layer_convolutional}.
+Layers containing this calculation are called ``convolutional layer.''
+
+A way shown in Fig. \ref{fig:layer_fully_connected} is also used for $f$.
+It globally weighs the parameter to extract global characteristics,
+especially from one locally extracted.
+In this case, inputs to and outputs from $f$ can be regarded as
+1-dimensional arrays which are denoted as $x_j$ for input,
+$z_j$ for output with a subscript.
+With 2-dimensional parameter $\theta_{i,j}$,
+the output $z_j$ is calculated as;
+\begin{eqnarray}
+z_i = \sum_{j} \theta_{i,j} x_{j}
+\end{eqnarray}
+Layers containing this calculation are called ``fully connected layer.''
+
 \begin{figure}[!tb]
  \begin{center}
   \begin{minipage}{\hsize}
@@ -243,6 +308,35 @@ and the neural network makes given schematics aesthetic.
   \end{minipage}
  \end{center}
 \end{figure}
+
+For activation function $a$, following sigmoid function is used:
+\begin{eqnarray}
+a(z) = \frac{1}{1-e^{-z}}
+\end{eqnarray}
+Figure \ref{fig:curves} (a) shows sigmoid function,
+which clips large negative values to 0, large positive values to 1,
+to digitize outputs of weight function.
+The following softmax function is also used for activation:
+\begin{eqnarray}
+a(z_i) = \frac{e^(z_i)}{\sum_j e^{z_j}}
+\end{eqnarray}
+It emphasized a maximum value in its input vector.
+
+For loss function $L$, the most simple one is following Euclidean distance:
+\begin{eqnarray}
+L(\hat{\bf y}, {\bf y}) = \sum_{i}(\hat{y_i} - y_i)^2
+\end{eqnarray}
+Figure \ref{fig:curves} (b) and (c) shows Euclidean distance
+as a function of $\hat{y_i}-y_i$, when $y_i$ is 0 and 1, respectively.
+In this study, another function called cross entropy function is used
+which evaluates the error between $\hat{y_i}-y_i$ more significantly,
+as shown in Fig. \ref{fig:curves} (d) for $y_i = 0$, (e) for $y_i = 1$.
+The cross entropy function is formally denoted as follows:
+\begin{eqnarray}
+L(\hat{\bf y}, {\bf y}) = - y_i \log y_i - (1-y_i) \log (1-y_i)
+\end{eqnarray}
+
+\section{Concept}
 
 \begin{figure}[!tp]
  \begin{center}
