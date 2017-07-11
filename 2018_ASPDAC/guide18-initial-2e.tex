@@ -275,7 +275,7 @@ ${\bm \theta}_n$ is updated as follows:
 {\bm \theta}_n \leftarrow
 (1-\lambda){\bm \theta}_n
 - \epsilon
-  \sum_{i=1}^M
+  \frac{1}{M}\sum_{i=1}^M
   \frac{\partial L({\bf u}_i,{\bm \theta}_1,\cdots,{\bm \theta}_N,{\bf y}_i)}
        {\partial {\bm \theta}_n}\label{eqn:sgd}
 \end{eqnarray}
@@ -358,7 +358,7 @@ maximum value of width and height of the schematic.
 Output vector of the neural network is obtained
 by concatenating those 4 one-hot vectors.
 
-\section{Condition of Experiment}
+\section{Experimental Condition}
 
 \begin{figure*}[!tp]
  \begin{center}
@@ -370,6 +370,26 @@ by concatenating those 4 one-hot vectors.
  \end{center}
 \end{figure*}
 
+Figure \ref{fig:layers} shows a neural network structure
+applied to this study.
+It has an input layer, 2 hidden layers and an output layer.
+The input layer has width of 10, height of 10,
+depth of 6 for horizontal net, vertical net, connecting dot, input port,
+output port and not gate.
+
+%The first hidden layer is a convolutional layer \cite{mit},
+%where kernel dimension is $3\times 3$, output depth is 4.
+%The first hidden layer is activated by sigmoid function.
+%The second hidden layer is another convolutional layer,
+%where kernel dimension is $3\times 3$, output depth is 4,
+%activated by sigmoid function.
+%The output layer is a dense layer.
+%The input vector size of the output layer
+%is detemined by product of schematic dimension
+%and output length of previous layer, which is $10 \times 10 \times 4$.
+%The output length of the layer is sum of 2 for command type,
+%10 for origin-x, 10 for origin-y and 10 for destination.
+
 \begin{figure}[!tb]
  \begin{center}
   \begin{minipage}{\hsize}
@@ -379,6 +399,22 @@ by concatenating those 4 one-hot vectors.
   \end{minipage}
  \end{center}
 \end{figure}
+
+{\it Convolutional layer} is applied to hidden layer 1 and 2
+to extract local characteristics of layer input\cite{mit}.
+Figure \ref{fig:layer_convolutional} shows the weight function
+$f({\bf x}_n, {\bm \theta}_n)$ of the convolutional layer,
+where inputs to and outputs from $f$ are interpreted as
+3-dimensional arrays which are denoted as $x_{j,k,l}$ for input,
+$z_{i,k,l}$ for output with 3 subscripts.
+With 4-dimensional parameter $\theta_{i,j,m,n}$,
+the output $z_{i,k,l}$ is calculated as;
+\begin{eqnarray}
+z_{i,k,l} = \sum_{j}\sum_{m}\sum_{n}
+\theta_{i,j,m,n} x_{j,k - \lfloor w/2 \rfloor + m,l - \lfloor h/2 \rfloor + n}
+\end{eqnarray}
+where $w$ and $h$ are width and height of the parameter array
+as shown in Fig. \ref{fig:layer_convolutional}.
 
 \begin{figure}[!tb]
  \begin{center}
@@ -391,6 +427,27 @@ by concatenating those 4 one-hot vectors.
  \end{center}
 \end{figure}
 
+For activation function $a({\bf z}_n)$ of hidden layer 1 and 2,
+following sigmoid function is used:
+\begin{eqnarray}
+a(z) = \frac{1}{1-e^{-z}}
+\end{eqnarray}
+Figure \ref{fig:curves} (a) shows sigmoid function,
+which clips large negative values to 0, large positive values to 1,
+to digitize outputs of weight function.
+
+For the output layer, {\it fully connected layer} is adopted.
+It extracts global characteristics of the layer input,
+especially from one locally extracted.
+Input and output of weight function 
+$f({\bf x}_n, {\bm \theta}_n)$
+are regarded as 1-dimensional vector,
+so the formula looks like multiplication of a vector and a matrix as follows:
+\begin{eqnarray}
+z_i = \sum_{j} \theta_{i,j} x_{j}
+\end{eqnarray}
+
+Layers containing this calculation are called ``fully connected layer.''
 \begin{figure}[!tp]
  \begin{center}
   \begin{minipage}{\hsize}
@@ -400,6 +457,25 @@ by concatenating those 4 one-hot vectors.
   \end{minipage}
  \end{center}
 \end{figure}
+
+Softmax function is used for activation of the output layer.
+It formally described as:
+\begin{eqnarray}
+a(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}
+\end{eqnarray}
+It emphasized a maximum value in its input vector.
+Figure \ref{fig:partial_softmax} (a) shows a conventional softmax
+function shown in \cite{mit}.
+It emphasizes the maximum value in the input vector,
+by dividing exponential function of each input by the sum of those.
+Softmax function is introduced to pickup one element of vector.
+In this study, it is not suitable to pick up only one element
+amoung mixture of command type, origin-x, origin-y and destination.
+but is preferable to pick up them from each part of the vector independently.
+Then the partial softmax shown in (b) of Fig. \ref{fig:partial_softmax}
+is used where softmax function is applied
+for the first 2 elements for command type,
+the next 10 elements for origin-x, 10 for origin-y and last 10 for destination.
 
 \begin{figure}[!tp]
   \begin{minipage}{\hsize}
@@ -411,46 +487,8 @@ by concatenating those 4 one-hot vectors.
   \end{minipage}
 \end{figure}
 
-For weight function $f$, one shown Fig. \ref{fig:layer_convolutional}
-is used to extract local characteristics on a field.
-In this case, inputs to and outputs from $f$ are regarded as
-3-dimensional arrays which are denoted as $x_{j,k,l}$ for input,
-$z_{j,k,l}$ for output with 3 subscripts.
-With 4-dimensional parameter $\theta_{i,j,k,l}$,
-the output $z_{j,k,l}$ is calculated as;
-\begin{eqnarray}
-z_{i,k,l} = \sum_{j}\sum_{l}\sum_{m}
-\theta_{i,j,l,m} x_{j,k - \lfloor w/2 \rfloor + l,l - \lfloor h/2 \rfloor + m}
-\end{eqnarray}
-where $w$ and $h$ are width and height of the parameter space
-as shown in Fig. \ref{fig:layer_convolutional}.
-Layers containing this calculation are called ``convolutional layer.''
 
-A way shown in Fig. \ref{fig:layer_fully_connected} is also used for $f$.
-It globally weighs the parameter to extract global characteristics,
-especially from one locally extracted.
-In this case, inputs to and outputs from $f$ can be regarded as
-1-dimensional arrays which are denoted as $x_j$ for input,
-$z_j$ for output with a subscript.
-With 2-dimensional parameter $\theta_{i,j}$,
-the output $z_j$ is calculated as;
-\begin{eqnarray}
-z_i = \sum_{j} \theta_{i,j} x_{j}
-\end{eqnarray}
-Layers containing this calculation are called ``fully connected layer.''
 
-For activation function $a$, following sigmoid function is used:
-\begin{eqnarray}
-a(z) = \frac{1}{1-e^{-z}}
-\end{eqnarray}
-Figure \ref{fig:curves} (a) shows sigmoid function,
-which clips large negative values to 0, large positive values to 1,
-to digitize outputs of weight function.
-The following softmax function is also used for activation:
-\begin{eqnarray}
-a(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}
-\end{eqnarray}
-It emphasized a maximum value in its input vector.
 
 For loss function $L$, the most simple one is following Euclidean distance:
 \begin{eqnarray}
@@ -481,41 +519,11 @@ so the schematics can be placed various position on schematic field.
 Finally, several steps are introduced to achieve a clean schematics.
 The total numbers of schematic-edit-command pairs amounts up to about 1000.
 
-Figure \ref{fig:layers} shows a layer structure of neural network.
-The input layer has width of 10, height of 10,
-depth of 6 for horizontal net, vertical net, connecting dot, input port,
-output port and not gate.
-The first hidden layer is a convolutional layer \cite{mit},
-where kernel dimension is $3\times 3$, output depth is 4.
-The first hidden layer is activated by sigmoid function.
-The second hidden layer is another convolutional layer,
-where kernel dimension is $3\times 3$, output depth is 4,
-activated by sigmoid function.
-The output layer is a dense layer.
-The input vector size of the output layer
-is detemined by product of schematic dimension
-and output length of previous layer, which is $10 \times 10 \times 4$.
-The output length of the layer is sum of 2 for command type,
-10 for origin-x, 10 for origin-y and 10 for destination.
-
 The following hyper-parameters are used:
 0.1 for learning rate, 16 for minibatch size, 10000 of traning iteration.
 The program is written in Java and Clojure,
 a Lisp dialect running of Java Virtual Machine.
 
-The output layer is activated by softmax function.
-The (a) of Fig. \ref{fig:partial_softmax} shows a conventional softmax
-function shown in \cite{mit}.
-It emphasizes the maximum value in the input vector,
-by dividing exponential function of each input by the sum of those.
-Softmax function is introduced to pickup one element of vector.
-In this study, it is not suitable to pick up only one element
-amoung mixture of command type, origin-x, origin-y and destination.
-but is preferable to pick up them from each part of the vector independently.
-Then the partial softmax shown in (b) of Fig. \ref{fig:partial_softmax}
-is used where softmax function is applied
-for the first 2 elements for command type,
-the next 10 elements for origin-x, 10 for origin-y and last 10 for destination.
 
 \section{Result}
 
