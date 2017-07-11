@@ -235,7 +235,7 @@ as shown (c) and (c') in Fig.\ \ref{fig:nn_schem}.
  \begin{center}
   \begin{minipage}{\hsize}
    \includegraphics[width=\hsize]{fig/deep_feedforward_02.eps}
-   \caption{deep feedforward network}
+   \caption{A deep feedforward network.}
    \label{fig:deep_feedforward}
   \end{minipage}
  \end{center}
@@ -289,61 +289,57 @@ $\epsilon$ is learning rate.
 Values smaller than 1 and slightly more than 0 are chosen
 for $\lambda$ and $\epsilon$.
 By repeatedly applying the equation \ref{eqn:sgd},
-the parameter ${\bm theta}_n$ gets close to the optimal value.
+the parameter ${\bm \theta}_n$ gets close to the optimal value.
 
 \begin{figure}[!tp]
  \begin{center}
   \begin{minipage}{\hsize}
    \includegraphics[width=\hsize]{fig/encode_01.eps}
-   \caption{a way to encode schematic for input vector of neural network}
-   \label{fig:input_encode}
+   \caption{Schamatics and commands encoding.}
+   \label{fig:encode}
   \end{minipage}
  \end{center}
 \end{figure}
 
-The command consists of following 4 elements:
+It is shown in Fig.\ \ref{fig:encode} how to encode
+schematics and edit commands so that the neural network can accept them.
+Figure \ref{fig:encode} (a) shows a schematic composed of
+inputs ports, output ports, an and-gate, a not-gate,
+horizontal nets, vertical nets, and a connecting point.
+In this study, elements on a schematic diagram are
+mapped onto 3-dimensional space.
+Figure \ref{fig:encode} (b) picks up horizontal nets appearing
+in Fig.\ \ref{fig:encode} (a), and they are mapped to depth 0.
+The depth 0 is composed of a 2-dimensional matrix which size is the same
+as given schematic.
+In the right side of Fig.\ \ref{fig:encode} (b),
+dots appear at coordinates where horizontal nets exist.
+A dot is mapped to a value of 1.0.
+Other points correnspond to 0.0.
+As shown in Fig.\ \ref{fig:encode} (c),
+vertical nets are mapped to depth 1.
+As well, connecting dots, input ports, output ports, not-gates and and-gates
+are mapped to depth 2, 3, 4, 5 and 6, respectively.
+
+Figure \ref{fig:encode} (e) shows how to encode schematic edit commands
+As can be seen also in Fig.\ \ref{fig:nn_schem},
+a command consists of following 4 elements:
 \begin{itemize}
 \item command, either move-x or move-y
 \item origin-x
 \item origin-y
 \item destination
 \end{itemize}
-Move-x means to move circuit elements horizontally, as shown (b')
-of Fig. \ref{fig:nn_schem}.
+Move-x means to move a circuit element horizontally,
+as shown in Fig. \ref{fig:nn_schem} (b').
 Move-y is for vertically moving, as shown (a') and (c')
-of Fig. \ref{fig:nn_schem}.
-In (a') of Fig. \ref{fig:nn_schem}, 
+of Fig.\ \ref{fig:nn_schem} (a') and (c').
+In Fig.\ \ref{fig:nn_schem} (a'), 
 the command `move-x (2, 1) to 4' can be seen,
 where origin-x, origin-y and destination are 2, 1 and 4 respectively.
 It means to horizontally move an element at the coordinate (2, 1) to (2, 4).
-
-
-Figure \ref{fig:input_encode} shows the way to encode schematic
-for input layer of the neural network.
-A 2-dimensional schematic is at first mapped to a 3-dimensional space
-where z-axes is type of circuit element, like nets, ports or gates.
-After that, a vector is achieved by concatenating the 3-dimensional space
-into 1-dimensional vector.
-
-Figure \ref{fig:input_encode} (a) shows a logic schematic composed of
-inputs ports, output ports, an and-gate, a not-gate,
-horizontal nets, vertical nets, and a connecting point.
-Figure \ref{fig:input_encode} (b) picks up horizontal nets appearing
-in Fig. \ref{fig:input_encode} (a), and they are mapped to depth 0.
-The depth 0 is composed of a 2-dimensional matrix which size is the same
-as given schematic.
-In the right side of (b) in Fig. \ref{fig:input_encode},
-dots are located at coordinates where horizontal nets appear.
-Points with dots corresponds to a value of 1.0, ones without dots
-corrensponds to a value of 0.0.
-As shown in figure \ref{fig:input_encode} (c),
-vertical nets are mapped to depth 1.
-As well, connecting dots, input ports, output ports, and-gates and not-gates
-are mapped to depth 2, 3, 4, 5 and 6, respectively.
-Input vectors are finally obtained by flattening the multi-layer of matrices.
-
-Figure \ref{fig:output_encode} shows a way to encode editing commands
-for output vector of the neural network.
+Each edit command element is encoded in one-hot style
+as shown in Fig.\ \ref{fig:encode} (e).
 Move-x is encoded to the vector $[1.0, 0.0]$, 
 while move-y is encoded to the vector $[0.0, 0.1]$. 
 Origin-x is encoded to one-hot vector, which is
@@ -353,12 +349,13 @@ Origin-x is encoded to one-hot vector, which is
 \item $[0.0, 0.0, 1.0, 0.0, \cdots]$ for 2,
 \end{itemize}
 and so on.
-For origin-x, the length of the one-hot is the width of the schematic.
-The y coordinate is also encoded to one-hot vector which length is
-height of the schematic.
+For origin-x, the length of the one-hot vector is the width of
+the schematic diagram.
+The origin-y is also encoded to one-hot vector which length is
+height of the schematic diagram.
 As well, destination is one-hot vector which length is
 maximum value of width and height of the schematic.
-Output vector of the neural network is eventually obtained
+Output vector of the neural network is obtained
 by concatenating those 4 one-hot vectors.
 
 \section{Condition of Experiment}
