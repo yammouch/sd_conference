@@ -207,7 +207,7 @@ and the neural network makes given schematics aesthetic.
 \begin{figure}[!tb]
  \begin{center}
   \begin{minipage}{\hsize}
-   \includegraphics[width=\hsize]{fig/deep_feedforward_01.eps}
+   \includegraphics[width=\hsize]{fig/deep_feedforward_02.eps}
    \caption{deep feedforward network}
    \label{fig:deep_feedforward}
   \end{minipage}
@@ -260,16 +260,6 @@ for $\lambda$ and $\epsilon$.
  \end{center}
 \end{figure}
 
-\begin{figure}[!tb]
- \begin{center}
-  \begin{minipage}{\hsize}
-   \includegraphics[width=\hsize]{fig/layer_fully_connected_02.eps}
-   \caption{fully connected layer}
-   \label{fig:layer_fully_connected}
-  \end{minipage}
- \end{center}
-\end{figure}
-
 For weight function $f$, one shown Fig. \ref{fig:layer_convolutional}
 is used to extract local characteristics on a field.
 In this case, inputs to and outputs from $f$ are regarded as
@@ -301,7 +291,7 @@ Layers containing this calculation are called ``fully connected layer.''
 \begin{figure}[!tb]
  \begin{center}
   \begin{minipage}{\hsize}
-   \includegraphics[width=\hsize]{fig/curves_02.eps}
+   \includegraphics[width=\hsize]{fig/curves_03.eps}
    \caption{(a) sigmoid function
     (b) Euclidean distance when the}
    \label{fig:curves}
@@ -397,15 +387,13 @@ based on its training, as shown (c) and (c') in Fig. \ref{fig:nn_schem}.
 \begin{figure}[!tp]
  \begin{center}
   \begin{minipage}{\hsize}
-   \includegraphics[width=\hsize]{input_encode_03.eps}
+   \includegraphics[width=\hsize]{fig/encode_01.eps}
    \caption{a way to encode schematic for input vector of neural network}
    \label{fig:input_encode}
   \end{minipage}
  \end{center}
 \end{figure}
 
-%To feed schematics and editing command to neural network,
-%they are necessary to be encoded into vectors composed of real numbers.
 Figure \ref{fig:input_encode} shows the way to encode schematic
 for input layer of the neural network.
 A 2-dimensional schematic is at first mapped to a 3-dimensional space
@@ -430,36 +418,8 @@ As well, connecting dots, input ports, output ports, and-gates and not-gates
 are mapped to depth 2, 3, 4, 5 and 6, respectively.
 Input vectors are finally obtained by flattening the multi-layer of matrices.
 
-\begin{figure}[!tp]
- \begin{center}
-  \begin{minipage}{\hsize}
-   \includegraphics[width=\hsize]{output_encode_02.eps}
-   \caption{a way to encode edit commands for output vector of neural network}
-   \label{fig:output_encode}
-  \end{minipage}
- \end{center}
-\end{figure}
-
 Figure \ref{fig:output_encode} shows a way to encode editing commands
 for output vector of the neural network.
-%A command `move-y, origin (4, 6), destination 2' is shown in the figure
-%as an example, which means to vertically move a object at the point (4, 6)
-%to y-coordinate of 2.
-%The more general explanation of editing commands follow.
-%Editing command consist of three elements.
-%The first element is a type of command.
-%Only 2 kinds of commands are used in this paper,
-%which are move-x and move-y,
-%although the other commands could be introduced as long as
-%the command would not change the semantics of the schematic.
-%Move-x means to move a object horizontally.
-%Move-y means to move one vertically.
-%The second element is a 2-element vector, meaning origin of the command.
-%The vector consists of x and y coordinates of the origin.
-%The third element is destination.
-%The destination means x-coordinate when the type of command
-%is move-x, in this work.
-%It becomes y-coordinates when the command if move-y.
 Move-x is encoded to the vector $[1.0, 0.0]$, 
 while move-y is encoded to the vector $[0.0, 0.1]$. 
 Origin-x is encoded to one-hot vector, which is
@@ -490,13 +450,13 @@ by concatenating those 4 one-hot vectors.
 \end{figure*}
 
 \begin{figure}[!tp]
- \begin{center}
   \begin{minipage}{\hsize}
-   \includegraphics[width=\hsize]{fig/training_data_01.eps}
+ \begin{center}
+   \includegraphics[width=0.7\hsize]{fig/training_data_02.eps}
    \caption{training data}
    \label{fig:training_data}
-  \end{minipage}
  \end{center}
+  \end{minipage}
 \end{figure}
 
 Schematics shown in Fig. \ref{fig:training_data} are used for this experiments.
@@ -564,7 +524,7 @@ the next 10 elements for origin-x, 10 for origin-y and last 10 for destination.
 \begin{figure}[!tp]
  \begin{center}
   \begin{minipage}{\hsize}
-   \includegraphics[width=\hsize]{fig/edit_steps_02.eps}
+   \includegraphics[width=\hsize]{fig/edit_steps_03.eps}
    \caption{steps to make the schematic aesthetic by trained neural network.}
    \label{fig:edit_steps}
   \end{minipage}
