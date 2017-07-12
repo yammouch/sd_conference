@@ -125,7 +125,7 @@ minus3pt\let\@listi\@listI}
 \thispagestyle{empty}
 
 {\small\textbf{Abstract---
-This study proposes a novel method to combine schematic expression
+This paper proposes a novel method to combine schematic expression
 and deep neural network to automatically aestheticize schematics.
 Schematics are encoded to vectors so that the neural network can accept them.
 Neural network is trained in supervised learning
@@ -190,7 +190,7 @@ in application of recognizing field data
 expanded on 2-dimensional space,
 e.g., bitmap image or board game field \cite{nips} \cite{alphago}.
 
-This study proposes a novel method to combine schematic expression
+This paper proposes a novel method to combine schematic expression
 which is another 2-dimensional field data
 and deep neural network to automatically manipulate schematics
 and to achieve human-readable ones, based on its training result.
@@ -215,8 +215,8 @@ and the neural network makes given schematics aesthetic.
 \end{figure}
 
 This section describes how a neural network is
-combined with schematic diagrams.
-Figure \ref{fig:nn_schem} shows the basic concept.
+combined with schematic diagrams,
+a basic concept of which is shown in Fig.\ \ref{fig:nn_schem}.
 The neural network will aestheticize given schematics after training.
 
 Training phase is shown in Fig.\ \ref{fig:nn_schem} (a), (a'), (b) and (b')
@@ -224,11 +224,11 @@ where pairs of a schematic diagram and a preferred edit command
 to make it cleaner are given to the neural network.
 The neural network updates its internal parameters as knowledge obtained
 from the training.
-Note that training data are input to output layer
+Note that training data go into to output layer
 as well as input layer in traning phase,
-even though the name is {\it output layer}.
+even though the layer is called {\it output layer}.
 After training, the neural network generates schematic edit commands
-from the output layer for one the network has even not experienced,
+from the output layer even for one the network has not experienced,
 as shown (c) and (c') in Fig.\ \ref{fig:nn_schem}.
 
 \begin{figure}[!tb]
@@ -241,16 +241,16 @@ as shown (c) and (c') in Fig.\ \ref{fig:nn_schem}.
  \end{center}
 \end{figure}
 
-In this study, an neural network architecture called
-{\it deep feedforward network} is used,
-and it is trained by {\it stochastic gradient descent} (SGD)\cite{mit}.
+An neural network architecture called {\it deep feedforward network} is used,
+and it is trained by {\it stochastic gradient descent}
+as descripbed in (SGD)\cite{mit}.
 Figure \ref{fig:deep_feedforward} shows an example of deep feedforward network.
 It consists of an input layer, some hidden layers and an output layer,
 without a feedback path.
 Based on trained parameters ${\bm \theta}_n$,
-it generates an output vector denoted as $\hat{\bf y}$ here
+it generates an output vector denoted as $\hat{\bf y}$
 which corresponds to preferred edit command for a given input vector
-${\bf u}$, an encoded schematic diagram.
+${\bf u}$ which is an encoded schematic diagram.
 Formally, $\hat{\bf y}$ is calculated as,
 \begin{eqnarray}
 \hat{\bf y} &=& {\bf x}_N \\
@@ -260,9 +260,10 @@ Formally, $\hat{\bf y}$ is calculated as,
 \end{eqnarray}
 where $N$ is the total number of hidden and output layers,
 $n$ is an integer ranging from 1 to $N$.
-$f_n$ is a weight function to weigh input elements of the layer.
+$f_n$ is a weight function to weigh elements of the input layer.
 $a_n$ is an activation function,
 typically clipping too large or too small output values of $f_n$.
+
 As described below,
 SGC updates ${\bm \theta}_n$ so that it reduces an error
 between $\hat{\bf y}$ and ${\bf y}$,
@@ -270,7 +271,7 @@ where ${\bf y}$ is a vector of training data.
 Given an loss function
 $L({\bf u},{\bm \theta}_1,\cdots,{\bm \theta}_N,{\bf y})$
 which evaluates the error between $\hat{\bf y}$ and ${\bf y}$,
-${\bm \theta}_n$ is updated as follows:
+${\bm \theta}_n$ is updated along with the gradient of $L$ as follows:
 \begin{eqnarray}
 {\bm \theta}_n \leftarrow
 (1-\lambda){\bm \theta}_n
@@ -284,7 +285,7 @@ to show that ${\bf u}_i$ is an array of vector randomly picked up
 from training data set.
 ${\bf y}_i$ are a vector array, too.
 The number of vectors $M$ is called {\it minibatch size}.
-$\lambda$ is weight decay to above overfitting,
+$\lambda$ is weight decay to avoid overfitting,
 $\epsilon$ is learning rate.
 Values smaller than 1 and slightly more than 0 are chosen
 for $\lambda$ and $\epsilon$.
@@ -294,7 +295,7 @@ the parameter ${\bm \theta}_n$ gets close to the optimal value.
 \begin{figure}[!tp]
  \begin{center}
   \begin{minipage}{\hsize}
-   \includegraphics[width=\hsize]{fig/encode_01.eps}
+   \includegraphics[width=\hsize]{fig/encode_02.eps}
    \caption{Schamatics and commands encoding.}
    \label{fig:encode}
   \end{minipage}
@@ -306,13 +307,13 @@ schematics and edit commands so that the neural network can accept them.
 Figure \ref{fig:encode} (a) shows a schematic composed of
 inputs ports, output ports, an and-gate, a not-gate,
 horizontal nets, vertical nets, and a connecting point.
-In this study, elements on a schematic diagram are
+In this paper, elements on a schematic diagram are
 mapped onto 3-dimensional space.
 Figure \ref{fig:encode} (b) picks up horizontal nets appearing
 in Fig.\ \ref{fig:encode} (a), and they are mapped to depth 0.
 The depth 0 is composed of a 2-dimensional matrix which size is the same
-as given schematic.
-In the right side of Fig.\ \ref{fig:encode} (b),
+as that of a given schematic diagram.
+On the right side of Fig.\ \ref{fig:encode} (b),
 dots appear at coordinates where horizontal nets exist.
 A dot is mapped to a value of 1.0.
 Other points correnspond to 0.0.
@@ -320,6 +321,16 @@ As shown in Fig.\ \ref{fig:encode} (c),
 vertical nets are mapped to depth 1.
 As well, connecting dots, input ports, output ports, not-gates and and-gates
 are mapped to depth 2, 3, 4, 5 and 6, respectively.
+
+\begin{figure*}[!tp]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{fig/layers_06.eps}
+   \caption{a layer structure of the neural network}
+   \label{fig:layers}
+  \end{minipage}
+ \end{center}
+\end{figure*}
 
 Figure \ref{fig:encode} (e) shows how to encode schematic edit commands
 As can be seen also in Fig.\ \ref{fig:nn_schem},
@@ -332,12 +343,14 @@ a command consists of following 4 elements:
 \end{itemize}
 Move-x means to move a circuit element horizontally,
 as shown in Fig. \ref{fig:nn_schem} (b').
-Move-y is for vertically moving, as shown (a') and (c')
-of Fig.\ \ref{fig:nn_schem} (a') and (c').
+Move-y is for vertically moving, as shown in
+Fig.\ \ref{fig:nn_schem} (a') and (c').
 In Fig.\ \ref{fig:nn_schem} (a'), 
-the command `move-x (2, 1) to 4' can be seen,
-where origin-x, origin-y and destination are 2, 1 and 4 respectively.
-It means to horizontally move an element at the coordinate (2, 1) to (2, 4).
+For the command `move-x (2, 1) to 4' appearing
+in Fig.\ \ref{fig:nn_schem} (a'),
+origin-x, origin-y and destination are 2, 1 and 4 respectively.
+It can be interpreted as to horizontally move an element
+at the coordinate (2, 1) to (2, 4).
 Each edit command element is encoded in one-hot style
 as shown in Fig.\ \ref{fig:encode} (e).
 Move-x is encoded to the vector $[1.0, 0.0]$, 
@@ -360,18 +373,8 @@ by concatenating those 4 one-hot vectors.
 
 \section{Experimental Condition}
 
-\begin{figure*}[!tp]
- \begin{center}
-  \begin{minipage}{\hsize}
-   \includegraphics[width=\hsize]{fig/layers_06.eps}
-   \caption{a layer structure of the neural network}
-   \label{fig:layers}
-  \end{minipage}
- \end{center}
-\end{figure*}
-
 Figure \ref{fig:layers} shows a neural network structure
-applied to this study.
+applied to this work.
 It has an input layer, 2 hidden layers and an output layer.
 The input layer has width of 10, height of 10,
 depth of 6 for horizontal net, vertical net, connecting dot, input port,
@@ -469,7 +472,7 @@ function shown in \cite{mit}.
 It emphasizes the maximum value in the input vector,
 by dividing exponential function of each input by the sum of those.
 Softmax function is introduced to pickup one element of vector.
-In this study, it is not suitable to pick up only one element
+In this paper, it is not suitable to pick up only one element
 amoung mixture of command type, origin-x, origin-y and destination.
 but is preferable to pick up them from each part of the vector independently.
 Then the partial softmax shown in (b) of Fig. \ref{fig:partial_softmax}
@@ -496,7 +499,7 @@ L(\hat{\bf y}, {\bf y}) = \sum_{i}(\hat{y_i} - y_i)^2
 \end{eqnarray}
 Figure \ref{fig:curves} (b) and (c) shows Euclidean distance
 as a function of $\hat{y_i}$, where $y_i$ is 0 in (b) and 1 in (c).
-In this study, another function called cross entropy function is used
+In this paper, another function called cross entropy function is used
 which evaluates the error between $\hat{y_i}-y_i$ more significantly,
 as shown in Fig. \ref{fig:curves} (d) for $y_i = 0$, (e) for $y_i = 1$.
 The cross entropy function is formally denoted as follows:
