@@ -157,16 +157,17 @@ As well, output data from EDA are also text-based netlist,
 which are result of automatic layout, result of parasitic extraction, etc.
 Those text-based data often have to be manually analyzed
 for debug or engineering change order (ECO),
-but the analysis is error prone,
-so schematics are often drawn down from netlist manually.
-Schematic is more readable and understandable than text-based netlist,
-so electronic circuitry is designed on schematic,
-especially for analogue circuit.
+but the analysis is error prone.
+Then schematics are often manually drawn down from netlist.
+Electronic circuitry is designed on schematic,
+especially for analogue circuit,
+because schematics are more readable and understandable
+than text-based netlist.
 Even though digital circuit is often designed
 on hardware description language (HDL),
 schematics are useful for complex and clock-cycle-timing-critical design,
 e.g., pipeline \cite{ph}.
-So far, methods to automatically generate schematic from netlist or HDL
+So far, methods to automatically generate schematics from netlist or HDL
 have been proposed
 \cite{nauts}
 \cite{anshul}
@@ -229,7 +230,7 @@ as well as input layer in traning phase,
 even though the layer is called {\it output layer}.
 After training, the neural network generates schematic edit commands
 from the output layer even for one the network has not experienced,
-as shown (c) and (c') in Fig.\ \ref{fig:nn_schem}.
+as shown in Fig.\ \ref{fig:nn_schem} (c) and (c').
 
 \begin{figure}[!tb]
  \begin{center}
@@ -242,8 +243,8 @@ as shown (c) and (c') in Fig.\ \ref{fig:nn_schem}.
 \end{figure}
 
 An neural network architecture called {\it deep feedforward network} is used,
-and it is trained by {\it stochastic gradient descent}
-as descripbed in (SGD)\cite{mit}.
+and it is trained by {\it stochastic gradient descent} (SGC)
+as descripbed in \cite{mit}.
 Figure \ref{fig:deep_feedforward} shows an example of deep feedforward network.
 It consists of an input layer, some hidden layers and an output layer,
 with no feedback path.
@@ -260,7 +261,7 @@ Formally, $\hat{\bf y}$ is calculated as;
 \end{eqnarray}
 where $N$ is the total number of hidden and output layers,
 $n$ is an integer ranging from 1 to $N$.
-$f_n$ is a weight function to weigh elements of the input layer.
+$f_n$ is a weight function to weigh elements of layer input.
 $a_n$ is an activation function,
 typically clipping too large or too small output values of $f_n$.
 
@@ -280,7 +281,7 @@ ${\bm \theta}_n$ is updated along with the gradient of $L$ as follows:
 - \epsilon
   \frac{1}{M}\sum_{i=1}^M
   \frac{\partial L(\hat{\bf y}_i({\bf u}_i,{\bm \theta}_1,
-                               \cdots,{\bm \theta}_N,)
+                               \cdots,{\bm \theta}_N),
                    {\bf y}_i)}
        {\partial {\bm \theta}_n}\label{eqn:sgd}
 \end{eqnarray}
@@ -310,8 +311,8 @@ It is shown in Fig.\ \ref{fig:encode} how to encode
 schematics and edit commands so that the neural network can accept them.
 Figure \ref{fig:encode} (a) shows a schematic composed of
 inputs ports, output ports, an and-gate, a not-gate,
-horizontal nets, vertical nets, and a connecting point.
-In this paper, elements on a schematic diagram are
+horizontal nets, vertical nets, and a connecting dot.
+Elements on a schematic diagram are
 mapped onto 3-dimensional space.
 Figure \ref{fig:encode} (b) picks up horizontal nets appearing
 in Fig.\ \ref{fig:encode} (a), and they are mapped to depth 0.
@@ -336,11 +337,11 @@ are mapped to depth 2, 3, 4, 5 and 6, respectively.
  \end{center}
 \end{figure*}
 
-Figure \ref{fig:encode} (e) shows how to encode schematic edit commands
+Figure \ref{fig:encode} (e) shows how to encode schematic edit commands.
 As can be seen also in Fig.\ \ref{fig:nn_schem},
 a command consists of following 4 elements:
 \begin{itemize}
-\item command, either move-x or move-y
+\item command type, either move-x or move-y
 \item origin-x
 \item origin-y
 \item destination
@@ -355,11 +356,12 @@ in Fig.\ \ref{fig:nn_schem} (a'),
 origin-x, origin-y and destination are 2, 1 and 4 respectively.
 It can be interpreted as to horizontally move an element
 at the coordinate (2, 1) to (2, 4).
-Each edit command element is encoded in one-hot style
+Each edit command element is encoded in one-hot form,
+in which only one value is 1 and the others are 0 in a vector,
 as shown in Fig.\ \ref{fig:encode} (e).
 Move-x is encoded to the vector $[1.0, 0.0]$, 
 while move-y is encoded to the vector $[0.0, 0.1]$. 
-Origin-x is encoded to one-hot vector, which is
+Origin-x is encoded as follows;
 \begin{itemize}
 \item $[1.0, 0.0, 0.0, 0.0, \cdots]$ for 0,
 \item $[0.0, 1.0, 0.0, 0.0, \cdots]$ for 1, 
@@ -371,18 +373,19 @@ the schematic diagram.
 The origin-y is also encoded to one-hot vector which length is
 height of the schematic diagram.
 As well, destination is one-hot vector which length is
-maximum value of width and height of the schematic.
+maximum value of width and height of the schematic diagram.
 Output vector of the neural network is obtained
 by concatenating those 4 one-hot vectors.
+Those edit commands do not change semantics of schematics.
 
 \section{Experimental Condition}
 
 A neural network structure shown in Fig.\ \ref{fig:layers} is
-applied to this work.
+applied in this work.
 It has an input layer, 2 hidden layers and an output layer.
 The input layer has width of 10, height of 10,
-depth of 6 for horizontal net, vertical net, connecting dot, input port,
-output port and not gate.
+depth of 6 for horizontal nets, vertical nets, connecting dots, input ports,
+output ports and not gates.
 
 \begin{figure}[!tb]
  \begin{center}
@@ -394,17 +397,18 @@ output port and not gate.
  \end{center}
 \end{figure}
 
-{\it Convolutional layer} is applied to hidden layer 1 and 2
-to extract local characteristics of layer input\cite{mit}.
+{\it Convolutional layer} described in \cite{mit} is applied
+to hidden layers 1 and 2
+to extract local characteristics of layer input.
 Figure \ref{fig:layer_convolutional} shows the weight function
-$f({\bf x}_n, {\bm \theta}_n)$ of the convolutional layer,
+$f({\bf x}, {\bm \theta})$ of the convolutional layer,
 where inputs to and outputs from $f$ are interpreted as
 3-dimensional arrays which are denoted as $x_{j,k,l}$ for input,
 $z_{i,k,l}$ for output with 3 subscripts.
 With 4-dimensional parameter $\theta_{i,j,m,n}$,
 the output $z_{i,k,l}$ is calculated as;
 \begin{eqnarray}
-z_{i,k,l} = \sum_{j}\sum_{m}\sum_{n}
+z_{i,k,l} = \sum_{j}\sum^{h-1}_{m=0}\sum^{w-1}_{n=0}
 \theta_{i,j,m,n}\,
  x_{j,k - \lfloor w/2 \rfloor + m,l - \lfloor h/2 \rfloor + n}
 \end{eqnarray}
@@ -416,13 +420,13 @@ as shown in Fig. \ref{fig:layer_convolutional}.
   \begin{minipage}{\hsize}
    \includegraphics[width=\hsize]{fig/curves_03.eps}
    \caption{(a) sigmoid function
-    (b) cross entropy function for $y_i = 0$ (c) for $y_i = 0$}
+    (b) cross entropy function for $y_i = 0$ (c) for $y_i = 1$}
    \label{fig:curves}
   \end{minipage}
  \end{center}
 \end{figure}
 
-For activation function $a({\bf z}_n)$ of hidden layer 1 and 2,
+For activation function $a({\bf z})$ of hidden layers 1 and 2,
 following sigmoid function is used:
 \begin{eqnarray}
 a(z_i) = \frac{1}{1+\exp(-z_i)}
@@ -432,11 +436,11 @@ which clips large negative values to 0, large positive values to 1,
 to digitize outputs of weight function.
 
 For the output layer, {\it fully connected layer} is adopted.
-It extracts global characteristics of the layer input,
+It extracts global characteristics of the layer input
 which is locally extracted one in an adjacent preceding layer.
 Input and output of weight function 
-$f({\bf x}_n, {\bm \theta}_n)$
-are regarded as 1-dimensional vector,
+$f({\bf x}, {\bm \theta})$
+are regarded as 1-dimensional vectors,
 so the formula looks like multiplication of a vector and a matrix as follows:
 \begin{eqnarray}
 z_i = \sum_{j} \theta_{i,j}\, x_{j}
@@ -446,21 +450,21 @@ z_i = \sum_{j} \theta_{i,j}\, x_{j}
  \begin{center}
   \begin{minipage}{\hsize}
    \includegraphics[width=\hsize]{fig/partial_softmax_05.eps}
-   \caption{(a) conventional softmax, (b) partial softmax used in this work.}
+   \caption{(a) conventional softmax, (b) partial softmax used in this paper.}
    \label{fig:partial_softmax}
   \end{minipage}
  \end{center}
 \end{figure}
 
 Softmax function is used for activation of the output layer.
-It formally described as:
+It is formally described as:
 \begin{eqnarray}
 a({\bf z}) = \frac{\exp(z_i)}{\sum_j \exp(z_j)}
 \end{eqnarray}
 It emphasizes a maximum value in its input vector
 as shown in Fig.\ \ref{fig:partial_softmax} (a)
 which is a graphical expression of the softmax function.
-Softmax function is used to pickup one maximum element of vector
+Softmax function is used to pickup one maximum element of a vector
 if the vector has intrinsically one-hot form.
 For our application where an 32-length output vector could be split
 into 4 fragments which sizes are
@@ -471,7 +475,7 @@ it is not appropriate to emphasize only one element among the 32 elements.
 Each fragment should be applied to softmax function
 as shown in Fig.\ \ref{fig:partial_softmax} (b).
 Let us call it as {\it partial softmax} in this paper.
-Since softmax function poses a stronger restriction to its output
+Softmax function poses a stronger restriction to its output
 and contributes to faster learning convergence than sigmoid function,
 while sigmoid function could be applied to the output layer activation.
 
@@ -492,10 +496,11 @@ shown in Fig.\ \ref{fig:curves} (b).
 When an target value $y_i = 0$, in other words,
 the output value $\hat{y_i}$ matches to $y_i$,
 $L$ is calculated as 0, no error.
-The farther $\hat{y_i}$ is from $y_i$, the larger $L$ gets.
-Even though the curve has a singularity at $\hat{y_i} = 1$, 
-it is not harmful because a preceding activation function
-restricts $\hat{y}_i$ in the range of $0 < \hat{y}_i < 1$.
+The farther $\hat{y_i}$ is from $y_i$, the larger $L$ becomes.
+Even though the $L$ is not defined in a range
+$\hat{y_i} \le 0, 1 \le \hat{y_i}$,
+it is applicable because a preceding activation function
+restricts $\hat{y}_i$ in a range $0 < \hat{y}_i < 1$.
 While Euclidean distance
 $L(\hat{\bf y}, {\bf y}) = \sum_i (\hat{y}_i - y_i)^2$
 could be used as a kind of the simplest loss functions,
@@ -512,8 +517,8 @@ and results in a slower convergence of learning.
   \end{minipage}
 \end{figure}
 
-Schematics shown in Fig.\ \ref{fig:training_data} are used as data set
-for this experiments.
+Schematics shown in Fig.\ \ref{fig:training_data} are used for data set
+in this experiments.
 Each one consists of one input port, one not gate and one output port.
 It also contains an unnecessary ring which will be removed
 by the edit commands generated by the trained neural network.
@@ -524,11 +529,12 @@ $h$ of 2, 3 and 4, for the height of the ring.
 Then, there are 9 variations for the size of the ring.
 Thus, $9 \times 4 = 36$ different schematic patterns are introduced.
 Field size of those schematics is 10 grids $\times$ 10 grids.
-Since the schematic field has margin around the schematic diagram,
+Since the schematic field has margin around the circuitry,
 the schematics can be placed various position on schematic field.
 Finally, several schematic edit steps are introduced
 to achieve a clean schematic diagram.
-The total number of schematic-edit-command pairs amounts up to about 1000.
+The total number of schematic-edit-command pairs amounts up to about 1000,
+which the data set consists of.
 
 The following hyper-parameters are used:
 0.1 for learning rate $\epsilon$,
@@ -550,14 +556,14 @@ a dialect of Lisp running on Java Virtual Machine.
  \end{center}
 \end{figure}
 
-A sequence of schematic edit steps automatically generated
-from the trained neural network is shown in Fig.\ \ref{fig:edit_steps}.
-Data set composed of 36 schematic patterns
-shown in Fig.\ \ref{fig:training_data}
-was split into 12 patterns for training data set
-and 24 patterns for test data set,
-then a schematic diagram was picked up to generate the edit sequence
-from the test data set.
+Figure \ref{fig:edit_steps} shows a sequence of schematic edit steps
+automatically generated from the trained neural network.
+36 schematic patterns shown in Fig.\ \ref{fig:training_data}
+were split into 12 patterns for training data set
+and the remaining 24 patterns,
+then a schematic diagram was picked up
+from 24 patterns to test the learning result
+and to generate the edit sequence.
 The neural network was trained with vectors
 orinating only from the 12 patterns for training.
 In Fig. \ref{fig:edit_steps}, filled square shows the origin-x and y
@@ -566,11 +572,10 @@ At step 1, the top net of the unnecessary ring is grabbed and moved lower
 to remove the ring.
 At step 2, the edge of salient net is grabbed,
 and moved to the adjacent cross point.
-At step 3, the net connected to the input port is grabbed .
+At step 3, the net connected to the input port is grabbed.
 Finally, at step 4, the input port is moved upward
 and a clean schematic diagram is achived.
 The neural network succeeded in cleaning up a schematic diagram
-in test data set
 which the network has never experienced.
 The running time of this schematic edit command generation
 is less than 1 second.
@@ -585,7 +590,7 @@ is less than 1 second.
  \end{center}
 \end{figure}
 
-Figure \ref{fig:errors} shows an error appearing in learning phase.
+Figure \ref{fig:errors} shows an error observed in learning phase.
 The horizontal axes is traning iteration up to 10000.
 The vertical axes is the sum of squared errors between
 output vectors $\hat{\bf y}_i$ and target vectors ${\bf y}_i$
@@ -620,8 +625,11 @@ on an Intel Core i5-4300U CPU 1.9\,GHz.
 This experiment has been performed, varing the amount of training data set.
 Figure \ref{fig:test_data} shows the result.
 The horizontal axes shows the number of schematic patterns
-used for traninig data set out of 36 patterns in total.
-Also in this experiment, test data set is separated from the training data set.
+used for traninig data set picked up from 36 patterns
+shown in Fig.\ \ref{fig:training_data}.
+Also in this experiment,
+the training data set is separated from schematic patterns
+used for test of learning performance.
 The vertical axes shows the rate of success.
 In this result, {\it success} means that a clean schematic diagram,
 which looks like the final result in Fig.\ \ref{fig:edit_steps},
