@@ -409,7 +409,9 @@ z_{i,k,l} = \sum_{j}\sum^{h-1}_{m=0}\sum^{w-1}_{n=0}
  x_{j,k - \lfloor w/2 \rfloor + m,l - \lfloor h/2 \rfloor + n}
 \end{eqnarray}
 where $w$ and $h$ are width and height of the parameter array
-as shown in Fig. \ref{fig:layer_convolutional}.
+as shown in Fig. \ref{fig:layer_convolutional},
+and $\lfloor x \rfloor$ is a maximum integer satisfying
+$\lfloor x \rfloor \le x$.
 
 \begin{figure}[!tb]
  \begin{center}
