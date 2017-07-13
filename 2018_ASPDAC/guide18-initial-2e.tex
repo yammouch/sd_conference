@@ -109,7 +109,8 @@ minus3pt\let\@listi\@listI}
 \date{}
 
 %make title
-\title{\Large\textbf{A Deep Neural Network Based Approach to Aestheticize Schematics}}%\\~\\
+\title{\Large\textbf{A Deep Neural Network Based Approach
+                     to Achieve Aesthetic Schematics}}%\\~\\
 %\large\textbf{
 %Preparation of Papers in Two-Column Format\\
 %for the ASP-DAC 2018 (\LaTeX2e version)}}	% Modified by K. Kobayashi 18/06/02
@@ -125,19 +126,18 @@ minus3pt\let\@listi\@listI}
 \maketitle
 \thispagestyle{empty}
 
-{\small\textbf{Abstract---
-This paper proposes a novel method to combine schematic expression
-and deep neural network to automatically aestheticize schematics.
-Schematics are encoded to vectors so that the neural network can accept them.
-Neural network is trained in supervised learning
-with schematics and edit commands
-which do not change the semantics of the schematics.
-After training, schematics which are not a part of training data
-are fed to trained neural network,
-and the neural network makes given schematics aesthetic.
-When trained with 33\% of all data,
-the trained neural network has successfully aestheticized
-95\% of schematics unused in traning.
+{\small\textbf{Abstract ---
+This paper proposes a novel method to apply deep neural network
+to automatically make schematics aesthetic.
+A deep feedforward network composed of 2 convolutional layers
+and a fully connected layer is trained with stochastic gradient descent
+in supervised learning.
+Entangled schematics and corresponding preferred schematic edit commands are
+encoded to vectors which the neural network can accept,
+and used as training data set.
+Of all provided schematics, 33\% are used for training,
+and the trained neural network successfully cleaned up 95\% of schematics
+separated from the training data.
 }}
 
 \section{Introduction}
