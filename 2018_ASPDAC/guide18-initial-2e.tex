@@ -185,7 +185,8 @@ Among machine learning techniques,
 deep neural network has demonstrated great performance
 and adaptability to a wide variety of data
 especially in applications of 2-dimensional field recognition
-for bitmap image \cite{nips} and board game field \cite{alphago}.
+for bitmap image \cite{nips} and board game field \cite{alphago},
+based on its training.
 
 This paper proposes a novel method to combine deep neural network and
 schematic diagrams which are also expressed on 2-dimensional field
@@ -641,15 +642,24 @@ the success rate reached to 100\%.
 
 \section{Conclusions}
 
-An novel way to achieve aesthetic schematic is proposed.
-Deep neural network is used, and it learns how to edit schematic
-from edit history obtained from human.
-The trained neural network cleans up unnecessary part of given schematics,
-which the neural network has not experienced.
-Even the neural network is short of traning data,
-it can clean up unknown schematics to a certain extent.
-With enough training data,
-the trained neural network can clean up almost of schematic.
+An novel method to combine deep neural network and schematic diagrams
+was proposed.
+A deep feedforward network consisting of 2 convolutional layers
+and a following fully connected layer is used.
+The neural network is trained in supervised learning with SGC.
+2-dimesional schematics are expanded to 3-dimensional space
+where the depth corresponds to circuit element types,
+and encoded into a form which the neural network can accept.
+The encoded schematics go into neural network with corresponding
+schematic commands which are encoded to one-hot-form vectors.
+The trained neural network succeeded in cleaning up 95\% of schematics
+separated from training data set when one third of all data set were used
+for training.
+Even when the neural network was trained with only about 10\% of data set,
+the successful rate exceeds 50\%.
+In this paper,
+applicability of deep neural network was confirmed
+for schematic edit and revising their aesthetics.
 
 %this is how to do an unnumbered subsection 
 %\section*{\sc Acknowledgements}
