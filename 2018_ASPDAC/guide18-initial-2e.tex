@@ -44,6 +44,7 @@
 %%\usepackage{times}
 \usepackage[dvipdfmx]{graphicx}
 \usepackage{bm}
+\usepackage{cite}
 \pagestyle{empty}
 %set paper size
 %for A4 paper
@@ -169,39 +170,33 @@ schematics are useful for complex and clock-cycle-timing-critical design,
 e.g., pipeline \cite{ph}.
 So far, methods to automatically generate schematics from netlist or HDL
 have been proposed
-\cite{nauts}
-\cite{anshul}
-\cite{fiduccia}
-\cite{chun}
-\cite{green}
-\cite{tsung}
-\cite{bogdan}.
+\cite{nauts, anshul, fiduccia, chun, green, tsung, bogdan}.
 
 Each of them focuses only on one of analog circuit,
 gate level netlist of digital circuit
 or more higher level HDL visualization.
-And the best shape of schematic is likely to depend on
-type of circuit, each project, or each individual.
-Recently, interest to machine learning is raining,
+The best shape of schematic, however, is likely to depend on
+type of circuit, each project, or each individual,
+while the prior arts do not deal with their dependency.
+Recently, interest to machine learning is raising,
 and some studies have applied machine-learning-based techniques
-to unprecedented realm of EDA \cite{fan} \cite{sourav}.
+to unprecedented realm of EDA \cite{fan, sourav}.
 Among machine learning techniques,
 deep neural network has demonstrated great performance
-in application of recognizing field data
-expanded on 2-dimensional space,
-e.g., bitmap image or board game field \cite{nips} \cite{alphago}.
+and adaptability to a wide variety of data
+especially in applications of 2-dimensional field recognition
+for bitmap image \cite{nips} and board game field \cite{alphago}.
 
-This paper proposes a novel method to combine schematic expression
-which is another 2-dimensional field data
-and deep neural network to automatically manipulate schematics
-and to achieve human-readable ones, based on its training result.
+This paper proposes a novel method to combine deep neural network and
+schematic diagrams which are also expressed on 2-dimensional field
+to automatically manipulate schematics
+and achieve human-readable ones, based on its training result.
 Schematics are encoded to vectors so that the neural network can accept them.
 The encoded schematics and corresponding preferred schematic edit commands,
 which are also encoded and do not change semantics of schematics,
-are given as training data.
-After training, schematics which are not a part of training data
-are fed to trained neural network,
-and the neural network makes given schematics aesthetic.
+are given as training data to the neural network.
+The trained neural network by itself edits schematics excluded
+from the training data, and aesthetic ones are achieved.
 
 \section{Concept}
 
