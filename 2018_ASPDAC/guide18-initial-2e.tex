@@ -372,10 +372,12 @@ Output vector of the neural network is obtained
 by concatenating those 4 one-hot vectors.
 Those edit commands do not change semantics of schematics.
 
-\section{Experimental Condition}
+\section{Neural Network Structure}
 
-A neural network structure shown in Fig.\ \ref{fig:layers} is
-applied in this work.
+A deep feedforward network is structured using function blocks
+described in \cite{mit} as shown in Fig.\ \ref{fig:layers}
+to extract characteristics of schematics and
+to finally generate schematic edit commands.
 It has an input layer, 2 hidden layers and an output layer.
 The input layer has width of 10, height of 10,
 depth of 6 for horizontal nets, vertical nets, connecting dots, input ports,
@@ -391,8 +393,7 @@ output ports and not gates.
  \end{center}
 \end{figure}
 
-{\it Convolutional layer} described in \cite{mit} is applied
-to hidden layers 1 and 2
+Convolutional layer is applied to hidden layers 1 and 2
 to extract local characteristics of layer input.
 Figure \ref{fig:layer_convolutional} shows the weight function
 $f({\bf x}, {\bm \theta})$ of the convolutional layer,
@@ -431,7 +432,7 @@ Figure \ref{fig:curves} (a) shows the sigmoid function,
 which clips large negative values to 0, large positive values to 1,
 to digitize outputs of weight function.
 
-For the output layer, {\it fully connected layer} is adopted.
+For the output layer, fully connected layer is adopted.
 It extracts global characteristics of the layer input
 which is locally extracted one in an adjacent preceding layer.
 Input and output of weight function 
@@ -478,7 +479,7 @@ while sigmoid function could be applied to the output layer activation.
 
 For loss function
 $L(\hat{\bf y}({\bf u},{\bm \theta}_1,\cdots,{\bm \theta}_N),{\bf y})$,
-{\it cross entropy function} shown in Fig.\ \ref{fig:curves} (b) and (c)
+cross entropy function shown in Fig.\ \ref{fig:curves} (b) and (c)
 is used, which is formally denoted as;
 \begin{eqnarray}
 L(\hat{\bf y},{\bf y})
@@ -497,9 +498,11 @@ it is applicable because a preceding activation function
 restricts $\hat{y}_i$ in a range $0 < \hat{y}_i < 1$.
 While Euclidean distance
 $L(\hat{\bf y}, {\bf y}) = \sum_i (\hat{y}_i - y_i)^2$
-could be used as a kind of the simplest loss functions,
+could be used as a kind of the simplest loss functions \cite{mit},
 it less significantly evaluates the error between $\hat{\bf y}$ and ${\bf y}$
 and results in a slower convergence of learning.
+
+\section{Experimental Condition}
 
 \begin{figure}[!tp]
   \begin{minipage}{\hsize}
