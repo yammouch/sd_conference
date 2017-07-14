@@ -172,13 +172,13 @@ So far, methods to automatically generate schematics from netlist or HDL
 have been proposed
 \cite{nauts, anshul, fiduccia, chun, green, tsung, bogdan}.
 
-Each of them focuses only on one of analog circuit,
+Each of them focuses only on one of analogue circuit,
 gate level netlist of digital circuit
 or more higher level HDL visualization.
 The best shape of schematic, however, is likely to depend on
 type of circuit, each project, or each individual,
 while the prior arts do not deal with their dependency.
-Recently, interest to machine learning is raising,
+Recently, interest to machine learning is soaring,
 and some studies have applied machine-learning-based techniques
 to unprecedented realm of EDA \cite{fan, sourav}.
 Among machine learning techniques,
@@ -214,16 +214,14 @@ from the training data, and aesthetic ones are achieved.
 This section describes how a neural network is
 combined with schematic diagrams,
 a basic concept of which is shown in Fig.\ \ref{fig:nn_schem}.
-The neural network will aestheticize given schematics after training.
-
-Training phase is shown in Fig.\ \ref{fig:nn_schem} (a), (a'), (b) and (b')
+In Fig.\ \ref{fig:nn_schem}, training phase is shown in (a), (a'), (b) and (b')
 where pairs of a schematic diagram and a preferred edit command
 to make it cleaner are given to the neural network.
 The neural network updates its internal parameters as knowledge obtained
 from the training.
-Note that training data go into to output layer
-as well as input layer in training phase,
-even though the layer is called {\it output layer}.
+Note that training data go into output layer
+as well as input layer in training phase
+although the layer is called {\it output layer}.
 After training, the neural network generates schematic edit commands
 from the output layer even for one the network has not experienced,
 as shown in Fig.\ \ref{fig:nn_schem} (c) and (c').
@@ -239,7 +237,7 @@ as shown in Fig.\ \ref{fig:nn_schem} (c) and (c').
 \end{figure}
 
 An neural network architecture called {\it deep feedforward network} is used,
-and it is trained by {\it stochastic gradient descent} (SGC)
+and it is trained by {\it stochastic gradient descent} (SGD)
 as described in \cite{mit}.
 Figure \ref{fig:deep_feedforward} shows an example of deep feedforward network.
 It consists of an input layer, some hidden layers and an output layer,
@@ -257,12 +255,12 @@ Formally, $\hat{\bf y}$ is calculated as;
 \end{eqnarray}
 where $N$ is the total number of hidden and output layers,
 $n$ is an integer ranging from 1 to $N$.
-$f_n$ is a weight function to weigh elements of layer input.
+$f_n$ is a weight function to the elements of layer input.
 $a_n$ is an activation function,
-typically clipping too large or too small output values of $f_n$.
+typically clipping too large and too small output values of $f_n$.
 
 As described below,
-SGC updates ${\bm \theta}_n$ so that it reduces an error
+SGD updates ${\bm \theta}_n$ so that it reduces an error
 between $\hat{\bf y}$ and ${\bf y}$,
 where ${\bf y}$ is a target vector
 which a neural network is trained to obtain
@@ -343,10 +341,9 @@ a command consists of following 4 elements:
 \item destination
 \end{itemize}
 Move-x means to move a circuit element horizontally,
-as shown in Fig. \ref{fig:nn_schem} (b').
+as shown in Fig.\ \ref{fig:nn_schem} (b').
 Move-y is for vertically moving, as shown in
 Fig.\ \ref{fig:nn_schem} (a') and (c').
-In Fig.\ \ref{fig:nn_schem} (a'), 
 For the command `move-x (2, 1) to 4' appearing
 in Fig.\ \ref{fig:nn_schem} (a'),
 origin-x, origin-y and destination are 2, 1 and 4 respectively.
@@ -417,8 +414,8 @@ $\lfloor x \rfloor \le x$.
  \begin{center}
   \begin{minipage}{\hsize}
    \includegraphics[width=\hsize]{fig/curves_03.eps}
-   \caption{(a) sigmoid function
-    (b) cross entropy function for $y_i = 0$ (c) for $y_i = 1$.}
+   \caption{(a) sigmoid function,
+    (b) cross entropy function for $y_i = 0$, (c) for $y_i = 1$.}
    \label{fig:curves}
   \end{minipage}
  \end{center}
@@ -438,8 +435,9 @@ It extracts global characteristics of the layer input
 which is locally extracted one in an adjacent preceding layer.
 Input and output of weight function 
 $f({\bf x}, {\bm \theta})$
-are regarded as 1-dimensional vectors,
-so the formula looks like multiplication of a vector and a matrix as follows:
+are regarded as 1-dimensional vectors.
+The calculation formula of $f$ resembles
+multiplication of a vector and a matrix as follows:
 \begin{eqnarray}
 z_i = \sum_{j} \theta_{i,j}\, x_{j}
 \end{eqnarray}
@@ -488,12 +486,9 @@ L(\hat{\bf y},{\bf y})
 which sums up $y_i$ and $\hat{y_i}$ applied to the function.
 $y_i$ and $\hat{y_i}$ are elements of a target vector ${\bf y}$ and
 the corresponding output vector $\hat{\bf y}$.
-For the target value $y_i = 0$,
-the cross entropy function forms the curve
-shown in Fig.\ \ref{fig:curves} (b).
-When an target value $y_i = 0$, in other words,
-the output value $\hat{y_i}$ matches to $y_i$,
-$L$ is calculated as 0, no error.
+For the target values $y_i = 0$ and $1$,
+a cross entropy function forms the curves
+shown in Fig.\ \ref{fig:curves} (b) and (c), respectively.
 The farther $\hat{y_i}$ is from $y_i$, the larger $L$ becomes.
 Even though the $L$ is not defined in a range
 $\hat{y_i} \le 0, 1 \le \hat{y_i}$,
@@ -528,7 +523,7 @@ Then, there are 9 variations for the size of the ring.
 Thus, $9 \times 4 = 36$ different schematic patterns are introduced.
 Field size of those schematics is 10 grids $\times$ 10 grids.
 Since the schematic field has margin around the circuitry,
-the schematics can be placed various position on schematic field.
+the schematics can be placed various position on the schematic field.
 Finally, several schematic edit steps are introduced
 to achieve a clean schematic diagram.
 The total number of schematic-edit-command pairs amounts up to about 1000,
@@ -564,12 +559,12 @@ from 24 patterns to test the learning result
 and to generate the edit sequence.
 The neural network was trained with vectors
 originating only from the 12 patterns for training.
-In Fig. \ref{fig:edit_steps}, filled square shows the origin-x and y
+In Fig.\ \ref{fig:edit_steps}, filled square shows the origin-x and y
 for each step.
 At step 1, the top net of the unnecessary ring is grabbed and moved lower
 to remove the ring.
 At step 2, the edge of salient net is grabbed,
-and moved to the adjacent cross point.
+and moved to the adjacent connecting dot.
 At step 3, the net connected to the input port is grabbed.
 Finally, at step 4, the input port is moved upward
 and a clean schematic diagram is achieved.
@@ -602,7 +597,7 @@ means squared Euclidean distance between 2 vectors as follows:
 ||\hat{\bf y} - {\bf y}||^2 =
 \sum_j(\hat{y}_j - y_j)^2
 \end{eqnarray}
-16 pairs of output vector $\hat{\bf y}_i$ and target vector ${\bf y}_i$
+48 pairs of output vector $\hat{\bf y}_i$ and target vector ${\bf y}_i$
 were picked up from the training data set to confirm the convergence.
 The curve gets close to 0, and convergence of learning can be seen there.
 Due to the decay weight $\lambda$ to avoid overfitting,
@@ -620,8 +615,8 @@ on an Intel Core i5-4300U CPU 1.9\,GHz.
  \end{center}
 \end{figure}
 
-This experiment has been performed, varying the amount of training data set.
-Figure \ref{fig:test_data} shows the result.
+This experiment has been performed, varying the amount of training data set,
+result of which is shown in Fig.\ \ref{fig:test_data}.
 The horizontal axes shows the number of schematic patterns
 used for training data set picked up from 36 patterns
 shown in Fig.\ \ref{fig:training_data}.
@@ -629,17 +624,17 @@ Also in this experiment,
 the training data set is separated from schematic patterns
 used for test of learning performance.
 The vertical axes shows the rate of success.
-In this result, {\it success} means that a clean schematic diagram,
-which looks like the final result in Fig.\ \ref{fig:edit_steps},
-with no overcrossing or unnecessary corner is achieved.
+In this result, {\it success} means that a clean schematic diagram is achieved,
+with no overcrossing or unnecessary corner,
+as shown in the final result of Fig.\ \ref{fig:edit_steps}.
 Even when trained with only 4 schematic patterns,
 the neural network could clean up about 53\% of schematics
 in the $36 - 4 = 32$ schematics.
 When trained with 12 patterns,
-which corresponds to one third of all 36 schematic patterns,
+which corresponded to one third of all 36 schematic patterns,
 the success rate 95\% was achieved.
-When trained with 24 patterns,
-which corresponds to two thirds of all schematic patterns,
+When 24 patterns were used for training,
+which corresponded to two thirds of all schematic patterns,
 the success rate reached to 100\%.
 
 \section{Conclusions}
@@ -648,12 +643,12 @@ An novel method to combine deep neural network and schematic diagrams
 was proposed.
 A deep feedforward network consisting of 2 convolutional layers
 and a following fully connected layer is used.
-The neural network is trained in supervised learning with SGC.
+The neural network is trained in supervised learning with SGD.
 2-dimesional schematics are expanded to 3-dimensional space
 where the depth corresponds to circuit element types,
 and encoded into a form which the neural network can accept.
 The encoded schematics go into neural network with corresponding
-schematic commands which are encoded to one-hot-form vectors.
+preferred schematic edit commands which are encoded to one-hot-form vectors.
 The trained neural network succeeded in cleaning up 95\% of schematics
 separated from training data set when one third of all data set were used
 for training.
