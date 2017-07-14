@@ -214,13 +214,14 @@ from the training data, and aesthetic ones are achieved.
 This section describes how a neural network is
 combined with schematic diagrams,
 a basic concept of which is shown in Fig.\ \ref{fig:nn_schem}.
-In Fig.\ \ref{fig:nn_schem}, training phase is shown in (a), (a'), (b) and (b')
+In Fig.\ \ref{fig:nn_schem},
+a training phase is shown in (a), (a'), (b) and (b')
 where pairs of a schematic diagram and a preferred edit command
 to make it cleaner are given to the neural network.
 The neural network updates its internal parameters as knowledge obtained
 from the training.
 Note that training data go into output layer
-as well as input layer in training phase
+as well as input layer in the training phase
 although the layer is called {\it output layer}.
 After training, the neural network generates schematic edit commands
 from the output layer even for one the network has not experienced,
@@ -583,22 +584,19 @@ is less than 1 second.
  \end{center}
 \end{figure}
 
-Figure \ref{fig:errors} shows an error observed in learning phase.
+Figure \ref{fig:errors} shows an error
+between output vectors $\hat{\bf y}_i$ and target vectors ${\bf y}_i$
+observed in the training phase.
 The horizontal axes is training iteration up to 10000.
-The vertical axes is the sum of squared errors between
-output vectors $\hat{\bf y}_i$ and target vectors ${\bf y}_i$
-calculated as follows;
+The vertical axes is the sum of squared Euclidean distance between
+$\hat{\bf y}_i$ and ${\bf y}_i$ calculated as follows;
 \begin{eqnarray}
 \sum_i||\hat{\bf y}_i - {\bf y}_i||^2
 \end{eqnarray}
-where the expression with double bars $||\hat{\bf y} - {\bf y}||^2$ 
-means squared Euclidean distance between 2 vectors as follows:
-\begin{eqnarray}
-||\hat{\bf y} - {\bf y}||^2 =
-\sum_j(\hat{y}_j - y_j)^2
-\end{eqnarray}
-48 pairs of output vector $\hat{\bf y}_i$ and target vector ${\bf y}_i$
-were picked up from the training data set to confirm the convergence.
+where $||\hat{\bf y} - {\bf y}||^2 = \sum_j(\hat{y}_j - y_j)^2$.
+48 pairs of an output vector $\hat{\bf y}_i$ and a target vector ${\bf y}_i$
+were picked up from the training data set to calculate the formula above,
+to plot Fig.\ \ref{fig:errors} and to confirm the convergence.
 The curve gets close to 0, and convergence of learning can be seen there.
 Due to the decay weight $\lambda$ to avoid overfitting,
 the curve keeps a value slightly more than 0.
