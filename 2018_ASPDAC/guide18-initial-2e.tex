@@ -588,10 +588,10 @@ Figure \ref{fig:errors} shows an error
 between output vectors $\hat{\bf y}_i$ and target vectors ${\bf y}_i$
 observed in the training phase.
 The horizontal axes is training iteration up to 10000.
-The vertical axes is an avarage of squared Euclidean distance between
+The vertical axes is an average of squared Euclidean distance between
 $\hat{\bf y}_i$ and ${\bf y}_i$ calculated as follows;
 \begin{eqnarray}
-\frac{1}{N}\sum_i^N||\hat{\bf y}_i - {\bf y}_i||^2
+\frac{1}{N}\sum_{i=0}^{N-1}||\hat{\bf y}_i - {\bf y}_i||^2
 \end{eqnarray}
 where $||\hat{\bf y} - {\bf y}||^2 = \sum_j(\hat{y}_j - y_j)^2$
 and $N$ is the number of pairs of $\hat{\bf y}_i$ and ${\bf y}_i$
