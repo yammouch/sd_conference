@@ -577,7 +577,7 @@ is less than 1 second.
 \begin{figure}[!tp]
  \begin{center}
   \begin{minipage}{\hsize}
-   \includegraphics[width=\hsize]{fig/errors_02.eps}
+   \includegraphics[width=\hsize]{fig/errors_03.eps}
    \caption{Convergence of learning.}
    \label{fig:errors}
   \end{minipage}
@@ -588,15 +588,14 @@ Figure \ref{fig:errors} shows an error
 between output vectors $\hat{\bf y}_i$ and target vectors ${\bf y}_i$
 observed in the training phase.
 The horizontal axes is training iteration up to 10000.
-The vertical axes is the sum of squared Euclidean distance between
+The vertical axes is an avarage of squared Euclidean distance between
 $\hat{\bf y}_i$ and ${\bf y}_i$ calculated as follows;
 \begin{eqnarray}
-\sum_i||\hat{\bf y}_i - {\bf y}_i||^2
+\frac{1}{N}\sum_i^N||\hat{\bf y}_i - {\bf y}_i||^2
 \end{eqnarray}
-where $||\hat{\bf y} - {\bf y}||^2 = \sum_j(\hat{y}_j - y_j)^2$.
-48 pairs of an output vector $\hat{\bf y}_i$ and a target vector ${\bf y}_i$
-were picked up from the training data set to calculate the formula above,
-to plot Fig.\ \ref{fig:errors} and to confirm the convergence.
+where $||\hat{\bf y} - {\bf y}||^2 = \sum_j(\hat{y}_j - y_j)^2$
+and $N$ is the number of pairs of $\hat{\bf y}_i$ and ${\bf y}_i$
+in the training data set.
 The curve gets close to 0, and convergence of learning can be seen there.
 Due to the decay weight $\lambda$ to avoid overfitting,
 the curve keeps a value slightly more than 0.
