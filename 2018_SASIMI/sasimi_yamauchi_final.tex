@@ -1,0 +1,680 @@
+\documentclass[twocolumn]{article}
+%\usepackage{sasimi}
+%%%% If you use A4 size paper add ``a4'' option as follows
+\usepackage[a4]{sasimi}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{bm}
+\usepackage{cite}
+
+\usepackage{color}
+%%%% Optional package for better font
+%\usepackage{txfonts}
+
+\begin{document}
+%date not printed
+\date{}
+
+%make title
+\title{\Large\bf
+A Deep Neural Network Based Approach
+to Achieve Aesthetic Schematics
+}
+							    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                                                               %%%%
+%%%% ATTENTION: To permit blind review,                            %%%%
+%%%%            Please DO NOT include author names                 %%%%
+%%%%            in initial submission                              %%%%
+%%%%                                                               %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%for single author
+%\author{Center the Authors Names Here \\
+%Center the Affiliations Here\\
+%Center the City, Stats and Country Here\\     
+%{\small (it is your option if you want your entire address listed)}}
+
+%for two authors
+\author{\normalsize
+ \begin{tabular}[t]{c@{\extracolsep{8em}}c}
+  \large Takuya Yamauchi & \large Tetsuro Okura \\
+  \\
+   Design Center Tokyo     & Design Center Tokyo \\
+   ams Japan Co. Ltd.      & ams Japan Co. Ltd. \\
+   Tokyo 108-0075, Japan   & Tokyo 108-0075, Japan \\
+   Takuya.Yamauchi@ams.com & Tetsuro.Okura@ams.com
+%\\
+%\\
+%\\
+%\\
+%\\
+\end{tabular}}
+
+\maketitle
+
+\thispagestyle{empty}
+
+\renewcommand{\floatpagefraction}{0.99}
+
+{\small\bf Abstract---
+This paper proposes a novel method to apply deep neural network
+to automatically make schematics aesthetic.
+A deep feedforward network composed of 2 convolutional layers
+and a fully connected layer is trained with stochastic gradient descent
+in supervised learning.
+Entangled schematics and corresponding preferred schematic edit commands are
+encoded to vectors which the neural network can accept,
+and used as training data set.
+Of all provided schematics, 33\% are used for training,
+and the trained neural network successfully cleaned up 95\% of schematics
+separated from the training data.
+}
+
+\section{Introduction}
+
+Electronic design automation (EDA) has applied a positive feedback
+in computer design by deploying computers themselves,
+introducing an acceleration to growth of computing power
+and achieving an exponential growth, along with Moore's law.
+Increasing the transistor count,
+functionality of electronic devices and their complexity of design,
+EDA has supported the development, by means of circuit simulator,
+logic synthesis, high-level synthesis, automatic layout,
+design rule checker, kinds of equivalence checkers,
+automatic test pattern generator (ATPG), etc.
+Those EDA tools handle topology information expressed as text data
+called netlist which is easy for computer to deal with.
+As well, output data from EDA are also text-based netlist,
+which are result of automatic layout, result of parasitic extraction, etc.
+Those text-based data often have to be manually analyzed
+for debug or engineering change order (ECO),
+but the analysis is error prone.
+Then schematics are often manually drawn down from netlist.
+Electronic circuitry is designed on schematic,
+especially for analogue circuit,
+because schematics are more readable and understandable
+than text-based netlist.
+Even though digital circuit is often designed
+on hardware description language (HDL),
+schematics are useful for complex and clock-cycle-timing-critical design,
+e.g., pipeline \cite{ph}.
+So far, methods to automatically generate schematics from netlist or HDL
+have been proposed
+\cite{nauts, anshul, fiduccia, chun, green, tsung, bogdan}.
+
+Each of them focuses only on one of analogue circuit,
+gate level netlist of digital circuit
+or more higher level HDL visualization.
+The best shape of a schematic diagram, however, is likely to depend on
+type of circuit, each project, or each individual,
+while the prior arts do not deal with their dependency.
+Recently, interest to machine learning is soaring,
+and some studies have applied machine-learning-based techniques
+in unprecedented realm of EDA \cite{fan, sourav}.
+Among machine learning techniques,
+deep neural network has demonstrated great performance
+and adaptability to a wide variety of data
+especially in applications of 2-dimensional field recognition
+for bitmap image \cite{nips} and board game field \cite{alphago},
+based on its training.
+
+This paper proposes a novel method to combine deep neural network and
+schematic diagrams which are also expressed on 2-dimensional field
+to automatically manipulate schematics
+and achieve human-readable ones, based on its training result.
+Schematics are encoded to vectors so that the neural network can accept them.
+The encoded schematics and corresponding preferred schematic edit commands,
+which are also encoded and do not change semantics of schematics,
+are given as training data to the neural network.
+The trained neural network by itself edits schematics excluded
+from the training data, and aesthetic ones are achieved.
+
+\section{Concept}
+
+\begin{figure}[!tp]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{fig/nn_schem_01.eps}
+   \caption{Training and querying neural network.}
+   \label{fig:nn_schem}
+  \end{minipage}
+ \end{center}
+\end{figure}
+
+This section describes how a neural network is
+combined with schematic diagrams,
+a basic concept of which is shown in Fig.\ \ref{fig:nn_schem}.
+There a training phase is shown in (a), (a'), (b) and (b')
+where pairs of a schematic diagram and a preferred edit command
+to make it cleaner are given to the neural network.
+The neural network updates its internal parameters as knowledge obtained
+from the training.
+Note that training data go into output layer
+as well as input layer in the training phase
+although the layer is called {\it output layer}.
+After training, the neural network generates schematic edit commands
+from the output layer even for one the network has not experienced,
+as shown in Fig.\ \ref{fig:nn_schem} (c) and (c').
+
+\begin{figure}[!tb]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{fig/deep_feedforward_01.eps}
+   \caption{A deep feedforward network.}
+   \label{fig:deep_feedforward}
+  \end{minipage}
+ \end{center}
+\end{figure}
+
+An neural network architecture called {\it deep feedforward network} is used,
+and it is trained by {\it stochastic gradient descent} (SGD)
+as described in \cite{mit}.
+Figure \ref{fig:deep_feedforward} shows an example of deep feedforward network.
+It consists of an input layer, some hidden layers and an output layer,
+with no feedback path.
+Based on trained parameters ${\bm \theta}_n$,
+it generates an output vector denoted as $\hat{\bf y}$
+which corresponds to preferred edit command for a given input vector
+${\bf u}$ which is an encoded schematic diagram.
+Formally, $\hat{\bf y}$ is calculated as;
+\begin{eqnarray}
+\hat{\bf y} &=& {\bf x}_N \\
+{\bf x}_n &=& a_n({\bf z}_n) \\
+{\bf z}_n &=& f_n({\bf x}_{n-1}, {\bm \theta}_n)\\
+{\bf x}_0 &=& {\bf u}
+\end{eqnarray}
+where $N$ is the total number of hidden and output layers,
+$n$ is an integer ranging from 1 to $N$.
+$f_n$ is a weight function to the elements of layer input.
+$a_n$ is an activation function,
+typically clipping too large and too small output values of $f_n$.
+
+As described below,
+SGD updates ${\bm \theta}_n$ so that it reduces an error
+between $\hat{\bf y}$ and ${\bf y}$,
+where ${\bf y}$ is a target vector
+which a neural network is trained to obtain
+for an given input vector ${\bf u}$.
+Given an loss function
+$L(\hat{\bf y}({\bf u},{\bm \theta}_1,\cdots,{\bm \theta}_N),{\bf y})$
+which evaluates the error between $\hat{\bf y}$ and ${\bf y}$,
+${\bm \theta}_n$ is updated along with the gradient of $L$ as follows:
+\begin{eqnarray}
+{\bm \theta}_n \leftarrow
+(1-\lambda){\bm \theta}_n
+- \epsilon
+  \frac{1}{M}\sum_{i=1}^M
+  \frac{\partial L(\hat{\bf y}_i({\bf u}_i,{\bm \theta}_1,
+                               \cdots,{\bm \theta}_N),
+                   {\bf y}_i)}
+       {\partial {\bm \theta}_n}\label{eqn:sgd}
+\end{eqnarray}
+where an input vector ${\bf u}_i$ is accompanied with a subscript $i$
+to show that ${\bf u}_i$ is an array of vectors randomly picked up
+from training data set.
+$\hat{\bf y}_i$ and ${\bf y}_i$ are vector arrays there, too.
+The number of vectors $M$ is called {\it minibatch size}.
+$\lambda$ is weight decay to avoid overfitting,
+$\epsilon$ is learning rate.
+Values smaller than 1 and slightly more than 0 are chosen
+for $\lambda$ and $\epsilon$.
+By repeatedly applying the equation (\ref{eqn:sgd}),
+the parameter ${\bm \theta}_n$ gets close to the optimal value.
+
+\begin{figure}[!tp]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{fig/encode_02.eps}
+   \caption{Schematics and commands encoding.}
+   \label{fig:encode}
+  \end{minipage}
+ \end{center}
+\end{figure}
+
+\begin{figure*}[!tp]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{fig/layers_02.eps}
+   \caption{A layer structure used in this paper.}
+   \label{fig:layers}
+  \end{minipage}
+ \end{center}
+\end{figure*}
+
+It is shown in Fig.\ \ref{fig:encode} how to encode
+schematics and edit commands so that the neural network can accept them.
+Figure \ref{fig:encode} (a) shows a schematic composed of
+input ports, output ports, an and-gate, a not-gate,
+horizontal nets, vertical nets, and a connecting dot.
+Elements on a schematic diagram are
+mapped onto 3-dimensional space.
+Figure \ref{fig:encode} (b) picks up horizontal nets appearing
+in Fig.\ \ref{fig:encode} (a), and they are mapped to depth 0.
+The depth 0 is composed of a 2-dimensional matrix which size is the same
+as that of a given schematic diagram.
+On the right side of Fig.\ \ref{fig:encode} (b),
+dots appear at coordinates where horizontal nets exist.
+A dot is encoded to a value of 1,
+while the other points correspond to 0.
+Vertical nets are mapped to depth 1
+as shown in Fig.\ \ref{fig:encode} (c).
+As well, connecting dots, input ports, output ports, not-gates and and-gates
+are mapped to depth 2, 3, 4, 5 and 6, respectively.
+
+Figure \ref{fig:encode} (e) shows how to encode schematic edit commands.
+As can be seen also in Fig.\ \ref{fig:nn_schem} (a'), (b') and (c'),
+a command consists of following 4 elements:
+\begin{itemize}
+\item command type, either move-x or move-y
+\item origin-x
+\item origin-y
+\item destination
+\end{itemize}
+Move-x means to move a circuit element horizontally,
+as shown in Fig.\ \ref{fig:nn_schem} (b').
+Move-y is for vertically moving, as shown in
+Fig.\ \ref{fig:nn_schem} (a') and (c').
+For the command `move-x (2, 1) to 4' appearing
+in Fig.\ \ref{fig:nn_schem} (a'),
+origin-x, origin-y and destination are 2, 1 and 4, respectively.
+It can be interpreted as to horizontally move an element
+at the coordinate (2, 1) to (2, 4).
+Each edit command element is encoded in one-hot form,
+in which only one value is 1 and the others are 0 in a vector,
+as shown in Fig.\ \ref{fig:encode} (e).
+Move-x is encoded to the vector $[1, 0]$,
+while move-y is encoded to the vector $[0, 1]$.
+Origin-x is encoded as follows;
+\begin{itemize}
+\item $[1, 0, 0, 0, \cdots]$ for 0,
+\item $[0, 1, 0, 0, \cdots]$ for 1,
+\item $[0, 0, 1, 0, \cdots]$ for 2,
+\end{itemize}
+and so on.
+For origin-x, the length of the one-hot vector is the width of
+the schematic diagram.
+The origin-y is also encoded to one-hot vector which length is
+height of the schematic diagram.
+As well, destination is one-hot vector which length is
+maximum value of width and height of the schematic diagram.
+Output vector of the neural network is obtained
+by concatenating those 4 one-hot vectors.
+Those edit commands do not change semantics of schematics.
+
+\section{Neural Network Structure}
+
+A deep feedforward network is structured using function blocks
+described in \cite{mit} as shown in Fig.\ \ref{fig:layers}
+to extract characteristics of schematics and
+to finally generate schematic edit commands.
+It has an input layer, 2 hidden layers and an output layer.
+The input layer has width of 10, height of 10,
+depth of 6 for horizontal nets, vertical nets, connecting dots, input ports,
+output ports and not gates.
+
+\begin{figure}[!tb]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{fig/layer_convolutional_01.eps}
+   \caption{Convolutional layer.}
+   \label{fig:layer_convolutional}
+  \end{minipage}
+ \end{center}
+\end{figure}
+
+Convolutional layer is applied to hidden layers 1 and 2
+to extract local characteristics of layer input.
+Figure \ref{fig:layer_convolutional} shows the weight function
+$f({\bf x}, {\bm \theta})$ of the convolutional layer,
+where input to and output from $f$ are interpreted as
+3-dimensional arrays which are denoted as $x_{j,k,l}$ for input,
+$z_{i,k,l}$ for output with 3 subscripts.
+With a 4-dimensional parameter $\theta_{i,j,m,n}$,
+the output $z_{i,k,l}$ is calculated as;
+\begin{eqnarray}
+z_{i,k,l} = \sum_{j}\sum^{h-1}_{m=0}\sum^{w-1}_{n=0}
+\theta_{i,j,m,n}\,
+ x_{j,k - \lfloor w/2 \rfloor + m,l - \lfloor h/2 \rfloor + n}
+\end{eqnarray}
+where $w$ and $h$ are width and height of the parameter array
+as shown in Fig. \ref{fig:layer_convolutional},
+and $\lfloor x \rfloor$ is a maximum integer satisfying
+$\lfloor x \rfloor \le x$.
+
+\begin{figure}[!tb]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{fig/curves_01.eps}
+   \caption{(a) sigmoid function,
+    (b) cross entropy function for $y_i = 0$, (c) for $y_i = 1$.}
+   \label{fig:curves}
+  \end{minipage}
+ \end{center}
+\end{figure}
+
+For activation function $a({\bf z})$ of hidden layers 1 and 2,
+following sigmoid function is used:
+\begin{eqnarray}
+a(z_i) = \frac{1}{1+\exp(-z_i)}
+\end{eqnarray}
+Figure \ref{fig:curves} (a) shows the sigmoid function,
+which clips large negative values to 0, large positive values to 1,
+to digitize outputs of weight function.
+
+For the output layer, fully connected layer is adopted.
+It extracts global characteristics of the layer input
+which is locally extracted one in an adjacent preceding layer.
+Input and output of weight function 
+$f({\bf x}, {\bm \theta})$
+are regarded as 1-dimensional vectors.
+The calculation formula of $f$ resembles
+multiplication of a vector and a matrix
+with addition of an offset vector
+$\theta_{i,\textrm{\footnotesize offset}}$ as follows:
+\begin{eqnarray}
+z_i = \sum_{j} \theta_{i,j}\, x_{j} + \theta_{i,\textrm{\footnotesize offset}}
+\end{eqnarray}
+
+\begin{figure}[!tp]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{fig/partial_softmax_01.eps}
+   \caption{(a) conventional softmax, (b) partial softmax used in this paper.}
+   \label{fig:partial_softmax}
+  \end{minipage}
+ \end{center}
+\end{figure}
+
+Softmax function is used for activation of the output layer.
+It is formally described as:
+\begin{eqnarray}
+a({\bf z}) = \frac{\exp(z_i)}{\sum_j \exp(z_j)}
+\end{eqnarray}
+It emphasizes a maximum value in its input vector
+as shown in Fig.\ \ref{fig:partial_softmax} (a)
+which is a graphical expression of the softmax function.
+Softmax function is used to pick up one maximum element of a vector
+if the vector has intrinsically one-hot form.
+For our application where an 32-length output vector could be split
+into 4 fragments which sizes are
+2 (for command type), 10 (for origin-x), 10 (for origin-y)
+and 10 (for destination)
+and each fragment should be interpreted as a one-hot form,
+it is not appropriate to emphasize only one element among the 32 elements.
+Each fragment should be applied to softmax function
+as shown in Fig.\ \ref{fig:partial_softmax} (b).
+Let us call it as {\it partial softmax} in this paper.
+Softmax function poses a stronger restriction to its output
+and contributes to faster learning convergence than sigmoid function,
+while sigmoid function could be applied to the output layer activation.
+
+For loss function
+$L(\hat{\bf y}({\bf u},{\bm \theta}_1,\cdots,{\bm \theta}_N),{\bf y})$,
+cross entropy function shown in Fig.\ \ref{fig:curves} (b) and (c)
+is used, which is formally denoted as;
+\begin{eqnarray}
+L(\hat{\bf y},{\bf y})
+= \sum_i \left[ - y_i \log \hat{y_i} - (1-y_i) \log (1-\hat{y_i}) \right]
+\end{eqnarray}
+which sums up $y_i$ and $\hat{y_i}$ applied to the function.
+$y_i$ and $\hat{y_i}$ are elements of a target vector ${\bf y}$ and
+the corresponding output vector $\hat{\bf y}$.
+For the target values $y_i = 0$ and $1$,
+a cross entropy function forms the curves
+shown in Fig.\ \ref{fig:curves} (b) and (c), respectively.
+The farther $\hat{y_i}$ is from $y_i$, the larger $L$ becomes.
+Even though the $L$ is not defined in a range
+$\hat{y_i} \le 0, 1 \le \hat{y_i}$,
+it is applicable because a preceding activation function
+restricts $\hat{y}_i$ in a range $0 < \hat{y}_i < 1$.
+While Euclidean distance
+$L(\hat{\bf y}, {\bf y}) = \sum_i (\hat{y}_i - y_i)^2$
+could be used as a kind of the simplest loss functions \cite{mit},
+it less significantly evaluates the error between $\hat{\bf y}$ and ${\bf y}$
+and results in a slower convergence of learning.
+
+\section{Experimental Condition}
+
+\begin{figure}[!tp]
+  \begin{minipage}{\hsize}
+ \begin{center}
+   \includegraphics[width=0.8\hsize]{fig/training_data_02.eps}
+   \caption{Schematic patterns for data set.}
+   \label{fig:training_data}
+ \end{center}
+  \end{minipage}
+\end{figure}
+
+Schematics shown in Fig.\ \ref{fig:training_data} are used for data set
+in this experiments.
+Each one consists of one input port, one not gate and one output port.
+It also contains an unnecessary ring which will be removed
+by the edit commands generated by the trained neural network.
+Each schematic diagram of Fig.\ \ref{fig:training_data} (a), (b), (c) and (d)
+has 9 variations with
+$w$ of 2, 3 and 4, for the width of the ring,
+$h$ of 2, 3 and 4, for the height of the ring.
+Then, there are 9 variations for the size of the ring.
+Thus, $9 \times 4 = 36$ different schematic patterns are introduced.
+Field size of those schematics is 10 grids $\times$ 10 grids.
+Since the schematic field has margin around the circuitry,
+the schematics can be placed at various positions on the schematic field
+and the data set has a variation of circuitry positions.
+Finally, several schematic edit steps are introduced
+to achieve a clean schematic diagram.
+The total number of schematic-and-edit-command pairs amounts up to about 1000,
+which the data set consists of.
+
+The following hyper-parameters are used:
+0.1 for learning rate $\epsilon$,
+16 for minibatch size $M$,
+$10^{-4}$ for weight decay $\lambda$ and 10000 of training iteration.
+The program is written in Java and Clojure which is
+a dialect of Lisp running on Java Virtual Machine.
+
+\section{Result}
+
+\begin{figure}[!tp]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{fig/edit_steps_01.eps}
+   \caption{Steps generated by the trained neural network,
+            cleaning up a schematic diagram.}
+   \label{fig:edit_steps}
+  \end{minipage}
+ \end{center}
+\end{figure}
+
+Figure \ref{fig:edit_steps} shows a sequence of schematic edit steps
+automatically generated from the trained neural network.
+36 schematic patterns shown in Fig.\ \ref{fig:training_data}
+were split into 12 patterns for training data set
+and the remaining 24 patterns,
+then a schematic diagram was picked up
+from those 24 patterns to test the learning result
+and to generate the edit sequence.
+The neural network was trained with vectors
+originating only from the 12 patterns for training.
+In Fig.\ \ref{fig:edit_steps}, filled square shows the origin-x and y
+for each step.
+At step 1, the top net of the unnecessary ring is grabbed and moved lower
+to remove the ring.
+At step 2, the edge of the salient net is grabbed,
+and moved to the adjacent connecting dot.
+At step 3, the net connected to the input port is grabbed.
+Finally, at step 4, the input port is moved upward
+and a clean schematic diagram is achieved.
+The neural network succeeded in cleaning up a schematic diagram
+which the network has never experienced.
+The running time of this schematic edit command generation
+is less than 1 second.
+
+\begin{figure}[!tp]
+ \begin{center}
+  \begin{minipage}{\hsize}
+   \includegraphics[width=\hsize]{fig/test_data_02.eps}
+   \caption{(a) convergence of learning,
+    (b) success rate of making schematics aesthetic.}
+   \label{fig:test_data}
+  \end{minipage}
+ \end{center}
+\end{figure}
+
+Figure \ref{fig:test_data} (a) shows an error
+between output vectors $\hat{\bf y}_i$ and target vectors ${\bf y}_i$
+observed in the training phase.
+The horizontal axes is training iteration up to 10000.
+The vertical axes is an average of squared Euclidean distance between
+$\hat{\bf y}_i$ and ${\bf y}_i$ calculated as follows;
+\begin{eqnarray}
+\frac{1}{N}\sum_{i=0}^{N-1}||\hat{\bf y}_i - {\bf y}_i||^2
+\end{eqnarray}
+where $||\hat{\bf y} - {\bf y}||^2 = \sum_j(\hat{y}_j - y_j)^2$
+and $N$ is the number of pairs of $\hat{\bf y}_i$ and ${\bf y}_i$
+in the training data set.
+The curve gets close to 0, and convergence of learning can be seen there.
+Due to the decay weight $\lambda$ to avoid overfitting,
+the curve keeps a value slightly more than 0.
+It took 60 seconds to finish the 10000 training iterations,
+on an Intel Core i5-4300U CPU 1.9\,GHz.
+
+This experiment has been performed, varying the amount of training data set,
+result of which is shown in Fig.\ \ref{fig:test_data} (b).
+The horizontal axes shows the number of schematic patterns
+used for training data set picked up from 36 patterns
+shown in Fig.\ \ref{fig:training_data}.
+Also in this experiment,
+the training data set is separated from schematic patterns
+used for test of learning performance.
+The vertical axes shows the rate of success.
+In this result, {\it success} means that a clean schematic diagram is achieved,
+with no overcrossing or unnecessary corner,
+as shown in the final result of Fig.\ \ref{fig:edit_steps}.
+Even when trained with only 4 schematic patterns,
+the neural network could clean up 53\% of schematics
+in the $36 - 4 = 32$ schematics.
+When trained with 12 patterns,
+which corresponded to one third of all 36 schematic patterns,
+the success rate 95\% was achieved.
+When 24 patterns were used for training,
+which corresponded to two thirds of all schematic patterns,
+the success rate reached to 100\%.
+
+\section{Conclusions}
+
+An novel method to combine deep neural network and schematic diagrams
+was proposed.
+A deep feedforward network consisting of 2 convolutional layers
+and a following fully connected layer is used.
+The neural network is trained in supervised learning with SGD.
+2-dimesional schematics are expanded to 3-dimensional space
+where the depth corresponds to circuit element types,
+and encoded into a form which the neural network can accept.
+The encoded schematics go into neural network with corresponding
+preferred schematic edit commands which are encoded to one-hot-form vectors.
+The trained neural network succeeded in cleaning up 95\% of schematics
+separated from training data set when one third of all data set were used
+for training.
+Even when the neural network was trained with only about 10\% of data set,
+the successful rate exceeds 50\%.
+In this paper,
+applicability of deep neural network was confirmed
+for schematic edit and revising their aesthetics.
+
+%this is how to do an unnumbered subsection 
+%\section*{\sc Acknowledgements}
+%This article was written by referring to {\em ``Author's guide --
+%Preparation of Papers in Two-Column Format for VLSI Symposia on
+%Technology and Circuits''}, the {\em ``Preparation of Papers in
+%Two-Column Format for the Proceedings of the 32nd ACM/IEEE Design
+%Automation Conference''} written by Ann Burgmeyer, IEEE and {\em ``the
+%template for producing IEEE-format articles using \LaTeX''}, written by
+%Matthew Ward, Worcester Polytechnic Institute.
+
+\begin{thebibliography}{99}
+\footnotesize
+
+\bibitem{ph}
+D. A. Patterson, and J. L. Hennessy,
+{\em Computer Organization and Design MIPS Edition:
+ The Hardware/Software Interface,}
+Morgan Kaufmann, 2013.
+
+\bibitem{nauts}
+C. Nauts,
+``Creating a nice-looking schematic from its netlist description,''
+in {\em Proc. Euro ASIC}, Mar. 1992.
+
+\bibitem{anshul}
+A. Kumar, A, Arya, V. V. Swaminathan, and A. Misra,
+``Automatic Generation of Digital System Schematic Diagrams,''
+{\em IEEE Design \& Test of Computers,}
+vol. 3, pp. 58--65, 1986.
+
+\bibitem{fiduccia}
+C. M. Fiduccia, and R. M. Mattheyses,
+``A Linear-Time Heuristic for Improving Network Partitions,''
+in {\em Proc. IEEE/ACM Design Automation Conference(DAC),}
+Jun. 1982.
+
+\bibitem{chun}
+R. K. Chun, K.-J. Chang, and L. P. McNamee,
+``VISION: VHDL Induced Schematic Imaging on Net-Lists,''
+in {\em Proc. IEEE/ACM Design Automation Conference(DAC),}
+Jun. 1987.
+
+\bibitem{green}
+L. D. Green, and J. Andersen,
+``Automated generation of analog schematic diagrams,''
+in {\em Proc. IEEE International Symposium on Circuits and Systems(ISCAS),}
+May. 1990.
+
+\bibitem{tsung}
+T. D. Lee, and L. Pl. McNamee,
+``Aesthetic Routing for Transistor Schematics,''
+in {\em Proc. IEEE/ACM International Conference
+ on Computer-Aided Design(ICCAD),}
+Nov. 1992.
+
+\bibitem{bogdan}
+B. G. Arsintescu,
+``A Method for Analog Circuits Visualization,''
+in {\em Proc. International Conference on Computer Design (ICCD),}
+Oct. 1996.
+
+\bibitem{fan}
+F. Lin, and K.-T. Cheng,
+``An Artificial Neural Network Approach for Screening Test Escapes,''
+in {\em Proc. Asia and South Pacific Design Automation Conference (ASP-DAC),}
+Jan. 2017.
+
+\bibitem{sourav}
+S. Das, J. R. Doppa, D. H. Kim. P. P. Pande, and K. Chakrabarty,
+``Optimizing 3D NoC design for energy efficiency:
+ A machine learning approach,''
+in {\em Proc. IEEE/ACM International Conference on
+ Computer-Aided Design (ICCAD),}
+Nov. 2015.
+
+\bibitem{nips}
+A. Krezhevsky, I. Sutskever, and G. E. Hinton,
+``ImageNet Classification with Deep Convolutional Neural Networks,''
+in {\em Proc. Annual Conference on Neural Information Processing Systems (NIPS)},
+Dec. 2012.
+
+
+\bibitem{alphago}
+D. Silver, A. Huang, C. J. Maddison, A. Guez, L. Sifre, G. van den Driessche,
+J. Schrittwieser, I. Antonoglou, V. Panneershelvam, M. Lanctot, S. Dieleman,
+D. Grewe, J. Nham, N. Kalchbrenner, I. Sutskever, T. Lillicrap, M. Leach,
+K. Kavukcuoglu, T. Graepel, and D. Hassabis,
+``Mastering The Game of Go with Deep Neural Networks And Tree Search,''
+{\em Nature,} vol. 529, pp. 484--489, 2016.
+
+\bibitem{mit}
+I. Goodfellow, Y. Bengio, and A. Courville,
+{\em Deep Learning (Adaptive Computation and Machine Learning),}
+The MIT Press, 2016. 
+
+\end{thebibliography}
+\end{document}
