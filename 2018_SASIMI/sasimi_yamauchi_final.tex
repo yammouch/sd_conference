@@ -168,7 +168,7 @@ as shown in Fig.\ \ref{fig:nn_schem} (c) and (c').
 
 An neural network architecture called {\it deep feedforward network} is used,
 and it is trained by {\it stochastic gradient descent} (SGD)
-as described in \cite{mit}.
+described in \cite{mit}.
 Figure \ref{fig:deep_feedforward} shows an example of deep feedforward network.
 It consists of an input layer, some hidden layers and an output layer,
 with no feedback path.
@@ -395,7 +395,7 @@ as shown in Fig.\ \ref{fig:partial_softmax} (a)
 which is a graphical expression of the softmax function.
 Softmax function is used to pick up one maximum element of a vector
 if the vector has intrinsically one-hot form.
-For our application where an 32-length output vector could be split
+For our application where a 32-length output vector could be split
 into 4 fragments which sizes are
 2 (for command type), 10 (for origin-x), 10 (for origin-y)
 and 10 (for destination)
@@ -488,11 +488,10 @@ a dialect of Lisp running on Java Virtual Machine.
 Figure \ref{fig:edit_steps} shows a sequence of schematic edit steps
 automatically generated from the trained neural network.
 36 schematic patterns shown in Fig.\ \ref{fig:training_data}
-were split into 12 patterns for training data set
-and the remaining 24 patterns,
-then a schematic diagram was picked up
-from those 24 patterns to test the learning result
-and to generate the edit sequence.
+were split into 12 and 24 patterns.
+The formar 12 patterns were used for training,
+and the latter 24 pattern were used for test of learning result
+and its perfomance to edit schematics.
 The neural network was trained with vectors
 originating only from the 12 patterns for training.
 In Fig.\ \ref{fig:edit_steps}, filled square shows the origin-x and y
