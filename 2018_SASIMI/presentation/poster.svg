@@ -332,9 +332,9 @@
      inkscape:snap-to-guides="false"
      inkscape:snap-others="false"
      showguides="false"
-     inkscape:zoom="0.28354589"
-     inkscape:cx="2052.4354"
-     inkscape:cy="3421.3341"
+     inkscape:zoom="0.20711522"
+     inkscape:cx="716.32457"
+     inkscape:cy="1569.2888"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -1005,6 +1005,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:55.72809601px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.98543358;stroke-opacity:1"
@@ -1017,6 +1018,7 @@
      y="-3079.6899"
      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:55.72809601px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.98543358;stroke-opacity:1"
      id="tspan9138-4">Takuya Yamauchi, Tetsuro Okura, ams Japan Co., Ltd.</tspan></text>
+
 
 
 
@@ -1037,6 +1039,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:55.72809601px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.98543358"
@@ -1049,6 +1052,7 @@
      y="-1059.7103"
      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:55.72809601px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:2.98543358"
      id="tspan9138-4-8-3">Schematic Encoding</tspan></text>
+
 
 
 
@@ -1066,6 +1070,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:55.72809601px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.98543358"
@@ -1078,6 +1083,7 @@
      y="-2463.3608"
      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:55.72809601px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:2.98543358"
      id="tspan9138-4-8-6-6">Dataset</tspan></text>
+
 
 
 
@@ -2855,6 +2861,7 @@
 
 
 
+
 </g><path
        inkscape:connector-curvature="0"
        id="path7735"
@@ -2905,6 +2912,7 @@
      sodipodi:role="line"
      y="0"
      x="0 3.892">50</tspan></text>
+
 
 
 
@@ -2963,6 +2971,7 @@
 
 
 
+
 </g><path
        inkscape:connector-curvature="0"
        id="path7787"
@@ -2988,6 +2997,7 @@
      id="tspan7797"
      y="0"
      x="0">0</tspan></text>
+
 
 
 
@@ -3038,6 +3048,7 @@
 
 
 
+
 </g><path
        inkscape:connector-curvature="0"
        id="path7823"
@@ -3080,6 +3091,7 @@
      sodipodi:role="line"
      y="0"
      x="0 3.892">40</tspan></text>
+
 
 
 
@@ -3151,6 +3163,7 @@
 
 
 
+
 <text
    id="text8190"
    style="font-variant:normal;font-weight:normal;font-size:5.5999999px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -3159,6 +3172,7 @@
      sodipodi:role="line"
      y="0"
      x="0 1.8648">-3</tspan></text>
+
 
 
 
@@ -3201,6 +3215,7 @@
 
 
 
+
 <text
    id="text8212"
    style="font-variant:normal;font-weight:normal;font-size:5.5999999px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -3209,6 +3224,7 @@
      sodipodi:role="line"
      y="0"
      x="0 1.8648">-2</tspan></text>
+
 
 
 
@@ -3251,6 +3267,7 @@
 
 
 
+
 <text
    id="text8234"
    style="font-variant:normal;font-weight:normal;font-size:5.5999999px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -3259,6 +3276,7 @@
      sodipodi:role="line"
      y="0"
      x="0 1.8648">-1</tspan></text>
+
 
 
 
@@ -3301,6 +3319,7 @@
 
 
 
+
 <text
    id="text8256"
    style="font-variant:normal;font-weight:normal;font-size:5.5999999px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -3308,6 +3327,7 @@
      id="tspan8254"
      y="0"
      x="0">0</tspan></text>
+
 
 
 
@@ -3350,6 +3370,7 @@
 
 
 
+
 <text
    id="text8278"
    style="font-variant:normal;font-weight:normal;font-size:5.5999999px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -3357,6 +3378,7 @@
      id="tspan8276"
      y="0"
      x="0">1</tspan></text>
+
 
 
 
@@ -3378,6 +3400,7 @@
      id="tspan8286"
      y="0"
      x="0">0</tspan></text>
+
 
 
 
@@ -3435,6 +3458,7 @@
 
 
 
+
 </g><path
        inkscape:connector-curvature="0"
        id="path8316-9"
@@ -3485,6 +3509,7 @@
      sodipodi:role="line"
      y="0"
      x="0 3.892">10</tspan></text>
+
 
 
 
@@ -3967,6 +3992,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40.97418213px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.19513226"
@@ -3984,6 +4010,7 @@
      x="1226.8663"
      y="-427.82477"
      style="stroke-width:2.19513226">of 36 for training data</tspan></text>
+
 
 
 
@@ -4018,6 +4045,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.57275772px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.95926332"
@@ -4030,6 +4058,7 @@
      x="91.99131"
      y="-2285.0249"
      style="stroke-width:1.95926332">cleaner one, a half adder</tspan></text>
+
 
 
 
@@ -4050,6 +4079,7 @@
      x="333.4986"
      y="-2338.2539"
      style="stroke-width:1.95926332">automatically</tspan></text>
+
 
 
 
@@ -4081,6 +4111,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.39183807px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.21742964"
@@ -4098,6 +4129,7 @@
      x="128.10089"
      y="-1153.3007"
      style="stroke-width:2.21742964">feeding edit history.</tspan></text>
+
 
 
 
@@ -4132,30 +4164,31 @@
    transform="scale(1,-1)" /><text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.57275772px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.95926356"
-   x="575.90271"
-   y="-2777.8691"
+   x="566.98273"
+   y="-2779.6736"
    id="text9132-7-1-78-6-4-4"
    transform="scale(1,-1)"><tspan
      style="stroke-width:1.95926356"
      sodipodi:role="line"
      id="tspan7880-1"
-     x="575.90271"
-     y="-2777.8691">Applies positive feedback,</tspan><tspan
+     x="566.98273"
+     y="-2779.6736">Applies positive feedback,</tspan><tspan
      style="stroke-width:1.95926356"
      sodipodi:role="line"
      id="tspan7882-0"
-     x="575.90271"
-     y="-2732.1531">contributes to exponential</tspan><tspan
+     x="566.98273"
+     y="-2733.9575">contributes to exponential</tspan><tspan
      style="stroke-width:1.95926356"
      sodipodi:role="line"
      id="tspan7884-5"
-     x="575.90271"
-     y="-2686.4373">growth of computing power.</tspan><tspan
+     x="566.98273"
+     y="-2688.2417">growth of computing power.</tspan><tspan
      style="stroke-width:1.95926356"
      sodipodi:role="line"
      id="tspan7886-8"
-     x="575.90271"
-     y="-2640.7212" /></text>
+     x="566.98273"
+     y="-2642.5256" /></text>
+
 
 
 
@@ -4176,6 +4209,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:42.93849564px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.30036759"
@@ -4188,6 +4222,7 @@
      x="1827.7838"
      y="-479.20261"
      style="stroke-width:2.30036759">training iteration [10  ]</tspan></text>
+
 
 
 
@@ -4208,6 +4243,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:55.72809601px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.98543358"
@@ -4220,6 +4256,7 @@
      x="1100.174"
      y="-2975.6477"
      style="stroke-width:2.98543358">Layer Structure</tspan></text>
+
 
 
 
@@ -4245,6 +4282,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:55.72809601px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.98543358"
@@ -4257,6 +4295,7 @@
      x="1102.171"
      y="-1498.1355"
      style="stroke-width:2.98543358">Result</tspan></text>
+
 
 
 
@@ -4276,6 +4315,7 @@
      id="tspan8045"
      x="170.96127"
      y="-74.855293">Neural networks accept numeric vectors.</tspan></text>
+
 
 
 
@@ -4310,6 +4350,7 @@
 
 
 
+
 <rect
    style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:3.09570694;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    id="rect9163-0-0-2-8"
@@ -4340,6 +4381,7 @@
 
 
 
+
 <path
    style="fill:none;stroke:#ff0000;stroke-width:12.02459812;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-7)"
    d="m 1379.0534,583.30036 v 207.0821"
@@ -4356,11 +4398,12 @@
    id="text9132-7-1-78-6-4-9"
    transform="scale(1,-1)"><tspan
      sodipodi:role="line"
-     id="tspan11361">95 % of test data are cleaned</tspan><tspan
+     id="tspan3462">95 % of test data are cleaned</tspan><tspan
      sodipodi:role="line"
-     id="tspan11363">up when trained with 1/3 (12)</tspan><tspan
+     id="tspan3464">up when trained with 1/3 (12)</tspan><tspan
      sodipodi:role="line"
-     id="tspan11365">of geometry variations.</tspan></text>
+     id="tspan3466">of geometry variations.</tspan></text>
+
 
 
 
@@ -4390,6 +4433,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.57300277px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.95926356;"
@@ -4398,11 +4442,12 @@
    id="text9132-7-1-78-6-3-1"
    transform="scale(1,-1)"><tspan
      sodipodi:role="line"
-     id="tspan11367">Learning converges.</tspan><tspan
+     id="tspan3470">Learning converges.</tspan><tspan
      sodipodi:role="line"
-     id="tspan11369">10000 iterations take</tspan><tspan
+     id="tspan3472">10000 iterations take</tspan><tspan
      sodipodi:role="line"
-     id="tspan11371">60 seconds.</tspan></text>
+     id="tspan3474">60 seconds.</tspan></text>
+
 
 
 
@@ -4428,6 +4473,7 @@
      id="tspan8597-8"
      x="1110.0341"
      y="-334.75446">Conclusion</tspan></text>
+
 
 
 
@@ -4464,6 +4510,7 @@
      y="-66.054276"
      style="stroke-width:2.20083737"
      id="tspan8191">  test data are successfully cleaned up.</tspan></text>
+
 
 
 
@@ -4514,6 +4561,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.8625679px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.38554955"
@@ -4530,6 +4578,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.57841873px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.47747374"
@@ -4542,6 +4591,7 @@
      x="2207.0894"
      y="-2714.1577"
      style="stroke-width:1.47747374">4</tspan></text>
+
 
 
 
@@ -9127,6 +9177,7 @@
      y="-2322.6897"
      style="stroke-width:1.96932316">automatically.</tspan></text>
 
+
 <rect
    style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:5.57866287;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    id="rect9163-0-0-5-4"
@@ -9148,6 +9199,7 @@
      x="703.54572"
      y="-2587.7817"
      style="stroke-width:1.80867708">Purpose:</tspan></text>
+
 
 <g
    style="fill:none;stroke:none;stroke-linecap:square;stroke-miterlimit:10"
